@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import InputWithUnit from './InputWithUnit.vue';
+import InputWithUnit from '../InputWithUnit.vue';
 
 const store = useStore();
 

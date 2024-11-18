@@ -1,10 +1,10 @@
 <script setup>
-import EnergySection from './components/EnergySection.vue';
-import HeatSection from './components/HeatSection.vue';
-import HeatingSourcesSection from './components/HeatingSourcesSection.vue';
-import VehicleSection from './components/VehicleSection.vue';
-import EmissionsSection from './components/EmissionsSection.vue';
-import CompanyInfoSection from './components/CompanyInfoSection.vue';
+import EnergySection from './components/sections/EnergySection.vue';
+import HeatSection from './components/sections/HeatSection.vue';
+import HeatingSourcesSection from './components/sections/HeatingSourcesSection.vue';
+import VehicleSection from './components/sections/VehicleSection.vue';
+import EmissionsSection from './components/sections/EmissionsSection.vue';
+import CompanyInfoSection from './components/sections/CompanyInfoSection.vue';
 import ThemeToggle from './components/ThemeToggle.vue';
 
 </script>

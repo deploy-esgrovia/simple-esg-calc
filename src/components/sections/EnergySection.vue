@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import InputWithUnit from './InputWithUnit.vue';
-import TypeSelector from './TypeSelector.vue';
-import SourceInput from './SourceInput.vue';
+import InputWithUnit from '../InputWithUnit.vue';
+import TypeSelector from '../TypeSelector.vue';
+import SourceInput from '../SourceInput.vue';
 
 const store = useStore();
 

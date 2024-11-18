@@ -1,11 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import InputWithUnit from './InputWithUnit.vue';
-
-const store = useStore();
-const router = useRouter();
 
 const useHeat = ref(false);
 const heatSources = ref([]);
