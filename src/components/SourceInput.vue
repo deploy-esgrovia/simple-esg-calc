@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps({
   sourceType: String,
-  modelValue: [String, Number]
+  modelValue: [String, Number],
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -11,53 +11,21 @@ const sourceLabels = {
   biomass: 'Biomasa / bioplyn',
   wind: 'Vítr',
   water: 'Voda',
-  nuclear: 'Jádro'
+  nuclear: 'Jádro',
 };
 </script>
 
 <template>
-	<div class="energy-source-input">
-		<label class="source-label">{{ sourceLabels[sourceType] }}</label>
-		<div class="input-container">
+	<div class="mb-4 flex items-center gap-4">
+		<label class="flex-1 font-medium text-gray-700">{{ sourceLabels[sourceType] }}</label>
+		<div class="flex items-center gap-2">
 			<input
 				type="number"
 				:value="modelValue"
-				@input="emit('update:modelValue', $event.target.value)"
-				class="source-input"
+				@input="$emit('update:modelValue', $event.target.value)"
+				class="w-32 p-2 border border-gray-300 rounded-lg text-base"
 			/>
-			<span class="unit">MWh / rok</span>
+			<span class="text-gray-500 text-sm">MWh / rok</span>
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.energy-source-input {
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.source-label {
-  flex: 1;
-  font-weight: 500;
-}
-
-.input-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.source-input {
-  width: 120px;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.unit {
-  color: #666;
-  font-size: 0.9rem;
-}
-</style>
