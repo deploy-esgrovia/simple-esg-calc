@@ -1,17 +1,31 @@
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+<script setup>
+import EnergySection from './components/EnergySection.vue';
+import HeatSection from './components/HeatSection.vue';
+import HeatingSourcesSection from './components/HeatingSourcesSection.vue';
+import VehicleSection from './components/VehicleSection.vue';
+import EmissionsSection from './components/EmissionsSection.vue';
+import CompanyInfoSection from './components/CompanyInfoSection.vue';
+import ThemeToggle from './components/ThemeToggle.vue';
 
-const store = useStore();
-
-const currentStep = computed(() => store.state.currentStep);
 </script>
 
 <template>
 	<div class="app">
+		<ThemeToggle />
 		<h1>Výpočet uhlíkové stopy</h1>
-		<div class="progress">Krok {{ currentStep }} ze 6</div>
-		<router-view></router-view>
+		<div class="form-container">
+			<EnergySection />
+			<div class="section-divider"></div>
+			<HeatSection />
+			<div class="section-divider"></div>
+			<HeatingSourcesSection />
+			<div class="section-divider"></div>
+			<VehicleSection />
+			<div class="section-divider"></div>
+			<EmissionsSection />
+			<div class="section-divider"></div>
+			<CompanyInfoSection />
+		</div>
 	</div>
 </template>
 
@@ -24,13 +38,18 @@ const currentStep = computed(() => store.state.currentStep);
 
 h1 {
   text-align: center;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
 }
 
-.progress {
-  text-align: center;
-  color: #666;
-  margin-bottom: 2rem;
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section-divider {
+  height: 1px;
+  background-color: var(--divider-color);
+  margin: 3rem 0;
 }
 </style>

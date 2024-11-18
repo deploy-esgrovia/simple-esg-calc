@@ -20,8 +20,54 @@ export default createStore({
 				useSteam: false,
 				steamSources: [],
 			},
+			heatingSources: {
+				hasBoiler: false,
+				selectedFuels: [],
+				fuelConsumption: {
+					oil: "",
+					gas: "",
+					coal: "",
+					wood: "",
+				},
+			},
+			vehicles: {
+				hasVehicles: false,
+				vehicleData: {
+					company: {
+						benzin: "",
+						nafta: "",
+						cng: "",
+						lpg: "",
+						elektrina: "",
+					},
+					personal: {
+						benzin: "",
+						nafta: "",
+						cng: "",
+						lpg: "",
+						elektrina: "",
+					},
+				},
+			},
+			emissions: {
+				hasEmissions: false,
+				emissions: {
+					co2: "",
+					ch4: "",
+					nf3: "",
+					n2o: "",
+					sf6: "",
+					r23: "",
+					r32: "",
+					r125: "",
+				},
+			},
+			company: {
+				ico: "",
+				name: "",
+				email: "",
+			},
 		},
-		currentStep: 1,
 	},
 	mutations: {
 		updateEnergyData(state, payload) {
@@ -30,8 +76,17 @@ export default createStore({
 		updateHeatData(state, payload) {
 			state.formData.heat = { ...state.formData.heat, ...payload };
 		},
-		setCurrentStep(state, step) {
-			state.currentStep = step;
+		updateHeatingSourcesData(state, payload) {
+			state.formData.heatingSources = { ...state.formData.heatingSources, ...payload };
+		},
+		updateVehicleData(state, payload) {
+			state.formData.vehicles = { ...state.formData.vehicles, ...payload };
+		},
+		updateEmissionsData(state, payload) {
+			state.formData.emissions = { ...state.formData.emissions, ...payload };
+		},
+		updateCompanyInfo(state, payload) {
+			state.formData.company = { ...state.formData.company, ...payload };
 		},
 	},
 	actions: {
@@ -41,11 +96,17 @@ export default createStore({
 		saveHeatData({ commit }, data) {
 			commit("updateHeatData", data);
 		},
-		nextStep({ commit, state }) {
-			commit("setCurrentStep", state.currentStep + 1);
+		saveHeatingSourcesData({ commit }, data) {
+			commit("updateHeatingSourcesData", data);
 		},
-		previousStep({ commit, state }) {
-			commit("setCurrentStep", state.currentStep - 1);
+		saveVehicleData({ commit }, data) {
+			commit("updateVehicleData", data);
+		},
+		saveEmissionsData({ commit }, data) {
+			commit("updateEmissionsData", data);
+		},
+		saveCompanyInfo({ commit }, data) {
+			commit("updateCompanyInfo", data);
 		},
 	},
 });

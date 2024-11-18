@@ -1,44 +1,23 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import InputWithUnit from './InputWithUnit.vue';
-
-interface SourceOption {
-  id: string;
-  label: string;
-  icon: string;
-}
 
 const store = useStore();
 const router = useRouter();
 
 const useHeat = ref(false);
-const heatSources = ref<string[]>([]);
+const heatSources = ref([]);
 const useSteam = ref(false);
-const steamSources = ref<string[]>([]);
+const steamSources = ref([]);
 
-const sourceOptions: SourceOption[] = [
+const sourceOptions = [
   { id: 'biomass', label: 'Biomasa / Bioplyn', icon: '🌿' },
   { id: 'gas', label: 'Zemní plyn', icon: '🔥' },
   { id: 'coal', label: 'Uhlí', icon: '⚫' },
   { id: 'unknown', label: 'Neznám zdroj', icon: '❓' }
 ];
-
-const saveAndContinue = () => {
-  store.dispatch('saveHeatData', {
-    useHeat: useHeat.value,
-    heatSources: heatSources.value,
-    useSteam: useSteam.value,
-    steamSources: steamSources.value
-  });
-  store.dispatch('nextStep');
-};
-
-const goBack = () => {
-  store.dispatch('previousStep');
-  router.push('/energy');
-};
 </script>
 
 <template>
@@ -108,10 +87,6 @@ const goBack = () => {
       </div>
     </div>
 
-    <div class="navigation-buttons">
-      <button class="back-button" @click="goBack">Zpět</button>
-      <button class="continue-button" @click="saveAndContinue">Pokračovat</button>
-    </div>
   </div>
 </template>
 

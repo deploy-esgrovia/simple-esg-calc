@@ -1,45 +1,26 @@
 <script setup>
-defineProps({
-  label: {
-    type: String,
-    required: true
-  },
-  modelValue: {
-    type: [String, Number],
-    required: true
-  },
-  unit: {
-    type: String,
-    required: true
-  },
-  error: {
-    type: Boolean,
-    default: false
-  },
-  errorMessage: {
-    type: String,
-    default: ''
-  }
+const props = defineProps({
+  label: String,
+  modelValue: [String, Number],
+  unit: String
 });
 
-defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-  <div class="input-group">
-    <label class="input-label">{{ label }}</label>
-    <div class="input-with-unit">
-      <input
-        type="number"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
-        class="input-field"
-        :class="{ 'error': error }"
-      />
-      <span class="unit">{{ unit }}</span>
-    </div>
-    <span v-if="error" class="error-message">{{ errorMessage }}</span>
-  </div>
+	<div class="input-group">
+		<label class="input-label">{{ label }}</label>
+		<div class="input-with-unit">
+			<input
+				type="number"
+				:value="modelValue"
+				@input="$emit('update:modelValue', $event.target.value)"
+				class="input-field"
+			/>
+			<span class="unit">{{ unit }}</span>
+		</div>
+	</div>
 </template>
 
 <style scoped>
@@ -67,19 +48,8 @@ defineEmits(['update:modelValue']);
   font-size: 1rem;
 }
 
-.input-field.error {
-  border-color: #dc3545;
-}
-
 .unit {
   color: #666;
   font-size: 0.9rem;
-}
-
-.error-message {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  display: block;
 }
 </style>

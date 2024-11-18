@@ -1,11 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-
 const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true
-  }
+  modelValue: String
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -30,18 +25,18 @@ const energyTypes = [
 </script>
 
 <template>
-  <div class="energy-type-selector">
-    <div
-      v-for="type in energyTypes"
-      :key="type.id"
-      class="energy-type-option"
-      :class="{ 'selected': modelValue === type.id }"
-      @click="emit('update:modelValue', type.id)"
-    >
-      <span class="icon">{{ type.icon }}</span>
-      <span class="label">{{ type.label }}</span>
-    </div>
-  </div>
+	<div class="energy-type-selector">
+		<div
+			v-for="type in energyTypes"
+			:key="type.id"
+			class="energy-type-option"
+			:class="{ 'selected': modelValue === type.id }"
+			@click="emit('update:modelValue', type.id)"
+		>
+			<span class="icon">{{ type.icon }}</span>
+			<span class="label">{{ type.label }}</span>
+		</div>
+	</div>
 </template>
 
 <style scoped>

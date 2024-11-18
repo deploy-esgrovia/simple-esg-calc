@@ -1,13 +1,7 @@
 <script setup>
 const props = defineProps({
-  sourceType: {
-    type: String,
-    required: true
-  },
-  modelValue: {
-    type: [String, Number],
-    required: true
-  }
+  sourceType: String,
+  modelValue: [String, Number]
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -22,18 +16,18 @@ const sourceLabels = {
 </script>
 
 <template>
-  <div class="energy-source-input">
-    <label class="source-label">{{ sourceLabels[sourceType] }}</label>
-    <div class="input-container">
-      <input
-        type="number"
-        :value="modelValue"
-        @input="emit('update:modelValue', $event.target.value)"
-        class="source-input"
-      />
-      <span class="unit">MWh / rok</span>
-    </div>
-  </div>
+	<div class="energy-source-input">
+		<label class="source-label">{{ sourceLabels[sourceType] }}</label>
+		<div class="input-container">
+			<input
+				type="number"
+				:value="modelValue"
+				@input="emit('update:modelValue', $event.target.value)"
+				class="source-input"
+			/>
+			<span class="unit">MWh / rok</span>
+		</div>
+	</div>
 </template>
 
 <style scoped>
