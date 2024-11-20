@@ -1,87 +1,102 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
+import sourceOptions from '../../options/heatSourceOptions.js';
+import InputWithUnit from '../InputWithUnit.vue';
 
 const useHeat = ref(false);
 const heatSources = ref([]);
+const heatSourceAmounts = reactive({}); // Declare as reactive object
+
 const useSteam = ref(false);
 const steamSources = ref([]);
+const steamSourceAmounts = reactive({}); // Declare as reactive object
 
-const sourceOptions = [
-  { id: 'biomass', label: 'Biomasa / Bioplyn', icon: '🌿' },
-  { id: 'gas', label: 'Zemní plyn', icon: '🔥' },
-  { id: 'coal', label: 'Uhlí', icon: '⚫' },
-  { id: 'unknown', label: 'Neznám zdroj', icon: '❓' }
-];
+const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
+  if (sourceArray.includes(sourceId)) {
+    // Remove the source and delete its amount entry
+    sourceArray.splice(sourceArray.indexOf(sourceId), 1);
+    delete sourceAmounts[sourceId];
+  } else {
+    // Add the source and initialize its amount
+    sourceArray.push(sourceId);
+    sourceAmounts[sourceId] = ''; // Initialize with an empty string or default value
+  }
+};
 </script>
 
 <template>
-  <div class="heat-section">
-    <h2 class="section-title">Nakupované teplo a pára</h2>
-    <p class="section-description">
-      Odebíráte teplo nebo páru od dodavatele? Pokud ano, vyberte zdroj a množství.
-    </p>
+	<div class="heat-section">
+		<h2 class="section-title">Nakupované teplo a pára</h2>
+		<p class="section-description">
+			Odebíráte teplo nebo páru od dodavatele? Pokud ano, vyberte zdroj a množství.
+		</p>
 
-    <div class="form-group">
-      <h3>Odebíráte teplo od dodavatele?</h3>
-      <div class="radio-group">
-        <label>
-          <input type="radio" v-model="useHeat" :value="true"> Ano
-        </label>
-        <label>
-          <input type="radio" v-model="useHeat" :value="false"> Ne
-        </label>
-      </div>
-    </div>
+		<!-- Heat Section -->
+		<div class="form-group">
+			<h3>Odebíráte teplo od dodavatele?</h3>
+			<div class="radio-group">
+				<label> <input type="radio" v-model="useHeat" :value="true" /> Ano </label>
+				<label> <input type="radio" v-model="useHeat" :value="false" /> Ne </label>
+			</div>
+		</div>
 
-    <div v-if="useHeat" class="source-selection">
-      <h3>Vyberte zdroj(e)</h3>
-      <div class="sources-grid">
-        <div
-          v-for="source in sourceOptions"
-          :key="source.id"
-          class="source-option"
-          :class="{ selected: heatSources.includes(source.id) }"
-          @click="heatSources = heatSources.includes(source.id) 
-            ? heatSources.filter(s => s !== source.id)
-            : [...heatSources, source.id]"
-        >
-          <span class="source-icon">{{ source.icon }}</span>
-          <span class="source-label">{{ source.label }}</span>
-        </div>
-      </div>
-    </div>
+		<div v-if="useHeat" class="source-selection">
+			<h3>Vyberte zdroj(e)</h3>
+			<div class="sources-grid">
+				<div
+					v-for="source in sourceOptions"
+					:key="source.id"
+					class="source-option"
+					:class="{ selected: heatSources.includes(source.id) }"
+					@click="toggleSource(heatSources, heatSourceAmounts, source.id)"
+				>
+					<span class="source-icon">{{ source.icon }}</span>
+					<span class="source-label">{{ source.label }}</span>
+				</div>
+			</div>
+			<div v-for="sourceId in heatSources" :key="sourceId" class="amount-input">
+				<InputWithUnit
+					:modelValue="heatSourceAmounts[sourceId]"
+					@update:modelValue="(value) => heatSourceAmounts[sourceId] = value"
+					label="Množství tepelné energie"
+					unit="MWh"
+				/>
+			</div>
+		</div>
 
-    <div class="form-group">
-      <h3>Odebíráte páru od dodavatele?</h3>
-      <div class="radio-group">
-        <label>
-          <input type="radio" v-model="useSteam" :value="true"> Ano
-        </label>
-        <label>
-          <input type="radio" v-model="useSteam" :value="false"> Ne
-        </label>
-      </div>
-    </div>
+		<!-- Steam Section -->
+		<div class="form-group">
+			<h3>Odebíráte páru od dodavatele?</h3>
+			<div class="radio-group">
+				<label> <input type="radio" v-model="useSteam" :value="true" /> Ano </label>
+				<label> <input type="radio" v-model="useSteam" :value="false" /> Ne </label>
+			</div>
+		</div>
 
-    <div v-if="useSteam" class="source-selection">
-      <h3>Vyberte zdroj(e)</h3>
-      <div class="sources-grid">
-        <div
-          v-for="source in sourceOptions"
-          :key="source.id"
-          class="source-option"
-          :class="{ selected: steamSources.includes(source.id) }"
-          @click="steamSources = steamSources.includes(source.id)
-            ? steamSources.filter(s => s !== source.id)
-            : [...steamSources, source.id]"
-        >
-          <span class="source-icon">{{ source.icon }}</span>
-          <span class="source-label">{{ source.label }}</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
+		<div v-if="useSteam" class="source-selection">
+			<h3>Vyberte zdroj(e)</h3>
+			<div class="sources-grid">
+				<div
+					v-for="source in sourceOptions"
+					:key="source.id"
+					class="source-option"
+					:class="{ selected: steamSources.includes(source.id) }"
+					@click="toggleSource(steamSources, steamSourceAmounts, source.id)"
+				>
+					<span class="source-icon">{{ source.icon }}</span>
+					<span class="source-label">{{ source.label }}</span>
+				</div>
+			</div>
+			<div v-for="sourceId in steamSources" :key="sourceId" class="amount-input">
+				<InputWithUnit
+					:modelValue="steamSourceAmounts[sourceId]"
+					@update:modelValue="(value) => steamSourceAmounts[sourceId] = value"
+					label="Množství"
+					unit="MWh"
+				/>
+			</div>
+		</div>
+	</div>
 </template>
 
 <style scoped>
