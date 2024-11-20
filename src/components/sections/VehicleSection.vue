@@ -19,31 +19,6 @@ const vehicleData = ref({
   }
 });
 
-const fuelTypes = [
-  { id: 'benzin', label: 'Benzín' },
-  { id: 'nafta', label: 'Nafta' },
-  { id: 'cng', label: 'CNG' },
-  { id: 'lpg', label: 'LPG' },
-  { id: 'elektrina', label: 'Elektřina' }
-];
-const fuelConsumption = [
-  {
-    id: 'benzin', label: 'l / rok'
-  },
-  {
-    id: 'nafta', label: 'l / rok'
-  },
-  {
-    id: 'cng', label: 'kg / rok'
-  },
-  {
-    id: 'lpg', label: 'kg / rok'
-  },
-  {
-    id: 'elektrina', label: 'MWh / rok'
-  }
-]
-
 const machinesData = ref({
   company: {
     benzin: '',
@@ -53,6 +28,30 @@ const machinesData = ref({
     elektrina: ''
   }
 });
+
+const fuelTypes = [
+  { id: 'benzin', label: 'Benzín' },
+  { id: 'nafta', label: 'Nafta' },
+  { id: 'cng', label: 'CNG' },
+  { id: 'lpg', label: 'LPG' },
+  { id: 'elektrina', label: 'Elektřina' }
+];
+
+const fuelConsumptionUnits = [
+  { id: 'benzin', label: 'l / rok' },
+  { id: 'nafta', label: 'l / rok' },
+  { id: 'cng', label: 'kg / rok' },
+  { id: 'lpg', label: 'kg / rok' },
+  { id: 'elektrina', label: 'MWh / rok' }
+]
+
+const totalMilageUnits = [
+  { id: 'benzin', label: 'km / rok' },
+  { id: 'nafta', label: 'km / rok' },
+  { id: 'cng', label: 'km / rok' },
+  { id: 'lpg', label: 'km / rok' },
+  { id: 'elektrina', label: 'km / rok' }
+]
 </script>
 
 <template>
@@ -70,7 +69,7 @@ const machinesData = ref({
 					<InputWithUnit
 						:label="`Nájezd km na ${fuel.label.toLowerCase()}`"
 						v-model="vehicleData.company[fuel.id]"
-						unit="km / rok"
+						:unit="totalMilageUnits.find(consumption => consumption.id === fuel.id).label"
 					/>
 				</div>
 			</div>
@@ -83,7 +82,7 @@ const machinesData = ref({
 					<InputWithUnit
 						:label="`Nájezd km na ${fuel.label.toLowerCase()}`"
 						v-model="vehicleData.personal[fuel.id]"
-						unit="km / rok"
+						:unit="totalMilageUnits.find(consumption => consumption.id === fuel.id).label"
 					/>
 				</div>
 			</div>
@@ -96,7 +95,7 @@ const machinesData = ref({
 					<InputWithUnit
 						:label="`Nájezd hodin na ${fuel.label.toLowerCase()}`"
 						v-model="machinesData.company[fuel.id]"
-						:unit="fuelConsumption.find(consumption => consumption.id === fuel.id).label"
+						:unit="fuelConsumptionUnits.find(consumption => consumption.id === fuel.id).label"
 					/>
 				</div>
 			</div>
