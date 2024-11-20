@@ -1,15 +1,21 @@
 <script setup>
 import { ref, reactive } from 'vue';
-import sourceOptions from '../../options/heatSourceOptions.js';
 import InputWithUnit from '../InputWithUnit.vue';
 
 const useHeat = ref(false);
-const heatSources = ref([]);
-const heatSourceAmounts = reactive({}); // Declare as reactive object
+const selectedHeatSources = ref([]);
+const heatSourceAmounts = reactive({});
 
 const useSteam = ref(false);
-const steamSources = ref([]);
-const steamSourceAmounts = reactive({}); // Declare as reactive object
+const selectedSteamSources = ref([]);
+const steamSourceAmounts = reactive({});
+
+const sourceOptions = [
+	{ id: "biomass", label: "Biomasa / Bioplyn", icon: "🌿" },
+	{ id: "gas", label: "Zemní plyn", icon: "🔥" },
+	{ id: "coal", label: "Uhlí", icon: "⚫" },
+	{ id: "unknown", label: "Neznám zdroj", icon: "❓" },
+];
 
 const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
   if (sourceArray.includes(sourceId)) {
@@ -47,19 +53,20 @@ const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
 					v-for="source in sourceOptions"
 					:key="source.id"
 					class="source-option"
-					:class="{ selected: heatSources.includes(source.id) }"
-					@click="toggleSource(heatSources, heatSourceAmounts, source.id)"
+					:class="{ selected: selectedHeatSources.includes(source.id) }"
+					@click="toggleSource(selectedHeatSources, heatSourceAmounts, source.id)"
 				>
 					<span class="source-icon">{{ source.icon }}</span>
 					<span class="source-label">{{ source.label }}</span>
 				</div>
 			</div>
-			<div v-for="sourceId in heatSources" :key="sourceId" class="amount-input">
+			<br />
+			<div v-for="sourceId in selectedHeatSources" :key="sourceId" class="amount-input">
 				<InputWithUnit
 					:modelValue="heatSourceAmounts[sourceId]"
 					@update:modelValue="(value) => heatSourceAmounts[sourceId] = value"
-					label="Množství tepelné energie"
-					unit="MWh"
+					:label="`Množství ${sourceOptions.find(s => s.id === sourceId).label}`"
+					unit="MWh / rok"
 				/>
 			</div>
 		</div>
@@ -80,19 +87,20 @@ const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
 					v-for="source in sourceOptions"
 					:key="source.id"
 					class="source-option"
-					:class="{ selected: steamSources.includes(source.id) }"
-					@click="toggleSource(steamSources, steamSourceAmounts, source.id)"
+					:class="{ selected: selectedSteamSources.includes(source.id) }"
+					@click="toggleSource(selectedSteamSources, steamSourceAmounts, source.id)"
 				>
 					<span class="source-icon">{{ source.icon }}</span>
 					<span class="source-label">{{ source.label }}</span>
 				</div>
 			</div>
-			<div v-for="sourceId in steamSources" :key="sourceId" class="amount-input">
+			<br />
+			<div v-for="sourceId in selectedSteamSources" :key="sourceId" class="amount-input">
 				<InputWithUnit
 					:modelValue="steamSourceAmounts[sourceId]"
 					@update:modelValue="(value) => steamSourceAmounts[sourceId] = value"
-					label="Množství"
-					unit="MWh"
+					:label="`Množství ${sourceOptions.find(s => s.id === sourceId).label}`"
+					unit="MWh / rok"
 				/>
 			</div>
 		</div>

@@ -1,13 +1,10 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 import InputWithUnit from '../InputWithUnit.vue';
-
-const store = useStore();
 
 const hasBoiler = ref(false);
 const selectedFuels = ref([]);
-const fuelConsumption = ref({
+const fuelConsumptionAmounts = ref({
   oil: '',
   gas: '',
   coal: '',
@@ -28,12 +25,16 @@ const units = {
   wood: 't/rok'
 };
 
-const saveData = () => {
-  store.dispatch('saveHeatingSourcesData', {
-    hasBoiler,
-    selectedFuels: selectedFuels.value,
-    fuelConsumption: fuelConsumption.value
-  });
+const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
+  if (sourceArray.includes(sourceId)) {
+    // Remove the source and delete its amount entry
+    sourceArray.splice(sourceArray.indexOf(sourceId), 1);
+    delete sourceAmounts[sourceId];
+  } else {
+    // Add the source and initialize its amount
+    sourceArray.push(sourceId);
+    sourceAmounts[sourceId] = ''; // Initialize with an empty string or default value
+  }
 };
 </script>
 
@@ -62,9 +63,7 @@ const saveData = () => {
 						:key="fuel.id"
 						class="source-option"
 						:class="{ selected: selectedFuels.includes(fuel.id) }"
-						@click="selectedFuels = selectedFuels.includes(fuel.id)
-              ? selectedFuels.filter(f => f !== fuel.id)
-              : [...selectedFuels, fuel.id]"
+						@click="toggleSource(selectedFuels, fuelConsumptionAmounts, fuel.id)"
 					>
 						<span class="source-icon">{{ fuel.icon }}</span>
 						<span class="source-label">{{ fuel.label }}</span>
@@ -75,7 +74,7 @@ const saveData = () => {
 			<div v-for="fuel in selectedFuels" :key="fuel" class="form-group">
 				<InputWithUnit
 					:label="`Množství ${fuelOptions.find(f => f.id === fuel).label}`"
-					v-model="fuelConsumption[fuel]"
+					v-model="fuelConsumptionAmounts[fuel]"
 					:unit="units[fuel]"
 				/>
 			</div>
