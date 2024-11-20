@@ -1,9 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 import InputWithUnit from '../InputWithUnit.vue';
-
-const store = useStore();
 
 const hasEmissions = ref(false);
 const emissions = ref({
@@ -28,11 +25,26 @@ const emissionTypes = [
   { id: 'r125', label: 'R-125/Pentafluorethan' }
 ];
 
-const saveData = () => {
-  store.dispatch('saveEmissionsData', {
-    hasEmissions: hasEmissions.value,
-    emissions: emissions.value
-  });
+const additionalEmissionTypes = [
+  { id: 'r134a', label: 'R-134a/Tetrafluorethan' },
+  { id: 'r143a', label: 'R-143a/Trifluorethan' },
+  { id: 'r152a', label: 'R-152a/Difluorethan' },
+  { id: 'r227ea', label: 'R-227ea/Heptafluoropropan' },
+  { id: 'r236fa', label: 'R-236fa/Hexafluoropropan' },
+  { id: 'r14', label: 'R-14/Tetrafluormethan' },
+  { id: 'r116', label: 'R-116/Hexafluorethan' }
+];
+
+const addedEmissions = ref([]); // Track dynamically added emissions
+
+// Add a new custom emission
+const addEmission = () => {
+  addedEmissions.value.push({ type: '', value: '' });
+};
+
+// Remove a custom emission
+const removeEmission = (index) => {
+  addedEmissions.value.splice(index, 1);
 };
 </script>
 
@@ -55,6 +67,7 @@ const saveData = () => {
 			<h3>Seznam látek</h3>
 			<p class="helper-text">Vyplňte hodnoty pouze pro vyprodukované látky.</p>
 
+			<!-- Predefined emissions -->
 			<div v-for="emission in emissionTypes" :key="emission.id" class="emission-input">
 				<InputWithUnit
 					:label="emission.label"
@@ -62,6 +75,28 @@ const saveData = () => {
 					unit="kg / rok"
 				/>
 			</div>
+
+			<!-- Custom emissions -->
+			<h3>Přidat další emise</h3>
+			<div
+				v-for="(customEmission, index) in addedEmissions"
+				:key="index"
+				class="custom-emission"
+			>
+				<select v-model="customEmission.type" class="custom-emission-type">
+					<option disabled value="">Vyberte typ emisí</option>
+					<option v-for="type in additionalEmissionTypes" :key="type.id" :value="type.id">
+						{{ type.label }}
+					</option>
+				</select>
+				<InputWithUnit
+					v-if="customEmission.type"
+					v-model="customEmission.value"
+					unit="kg / rok"
+				/>
+				<button @click="removeEmission(index)" class="remove-button">Odebrat</button>
+			</div>
+			<button @click="addEmission" class="add-button">Přidat emisní typ</button>
 		</div>
 	</div>
 </template>
@@ -113,5 +148,41 @@ const saveData = () => {
 
 .emission-input {
   margin-bottom: 1rem;
+}
+
+.custom-emission {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.custom-emission-type {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-button,
+.remove-button {
+  background-color: #4169E1;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button {
+  margin-top: 1rem;
+}
+
+.remove-button {
+  background-color: #dc3545;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
 }
 </style>
