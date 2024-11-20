@@ -2,19 +2,35 @@
 import { ref } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
-import SourceInput from '../SourceInput.vue';
-import energyTypes from '../../options/energyTypes.js'
-import sourceLabels from '../../options/sourceLabelOptions.js'
 
 const annualConsumption = ref('');
 const selectedEnergyType = ref('regular');
-const energySources = ref({
-  photovoltaic: '',
-  biomass: '',
-  wind: '',
-  water: '',
-  nuclear: ''
-});
+
+const sourceTypeLabels = {
+	photovoltaic: "Fotovoltaika",
+	biomass: "Biomasa / bioplyn",
+	wind: "Vítr",
+	water: "Voda",
+	nuclear: "Jádro",
+};
+
+const energyTypes = [
+	{
+		id: "regular",
+		label: "Běžná elektřina",
+		icon: "🔌",
+	},
+	{
+		id: "green",
+		label: "Zelený tarif",
+		icon: "🌿",
+	},
+	{
+		id: "guaranteed",
+		label: "Záruky původu",
+		icon: "🤝",
+	},
+];
 </script>
 
 <template>
@@ -30,7 +46,7 @@ const energySources = ref({
 				label="Kolik elektřiny nakupujete?"
 				v-model="annualConsumption"
 				unit="MWh / rok"
-				error="annualConsumption === ''"
+				:error="annualConsumption === ''"
 				error-message="Vyplňte prosím roční spotřebu elektřiny."
 			/>
 		</div>
@@ -39,7 +55,12 @@ const energySources = ref({
 			<h3>Jakou elektřinu odebíráte?</h3>
 			<TypeSelector v-model="selectedEnergyType" :energyTypes="energyTypes" />
 		</div>
-		# TODO: Add SourceInput components for each energy source
+
+		<div v-if="selectedEnergyType === 'guaranteed'" class="form-group">
+			<div v-for="source in sourceTypeLabels" :key="source">
+				<InputWithUnit :label="source" unit="MWh / rok" />
+			</div>
+		</div>
 	</div>
 </template>
 

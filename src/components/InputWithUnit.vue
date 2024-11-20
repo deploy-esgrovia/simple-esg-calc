@@ -21,18 +21,18 @@ const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-  <div class="input-group">
-    <label class="input-label">{{ label }}</label>
-    <div class="input-with-unit">
-      <input
-        :type="type"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
-        class="input-field"
-      />
-      <span class="unit">{{ unit }}</span>
-    </div>
-  </div>
+	<div class="input-group">
+		<label class="input-label">{{ label }}</label>
+		<div class="input-with-unit">
+			<input
+				:type="type"
+				:value="modelValue"
+				@input="$emit('update:modelValue', $event.target.value)"
+				class="input-field"
+			/>
+			<span class="unit">{{ unit }}</span>
+		</div>
+	</div>
 </template>
 
 <style scoped>

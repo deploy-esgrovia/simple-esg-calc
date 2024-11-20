@@ -45,8 +45,10 @@ h1 {
 }
 
 .section-divider {
-  height: 1px;
-  background-color: var(--divider-color);
-  margin: 3rem 0;
+	height: 2px;
+	background-color: grey;
+	margin: 2rem 0;
+	border-radius: 1px;
+	opacity: 0.7;
 }
 </style>
