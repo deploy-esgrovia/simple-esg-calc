@@ -6,7 +6,6 @@ import VehicleSection from './components/sections/VehicleSection.vue';
 import EmissionsSection from './components/sections/EmissionsSection.vue';
 import CompanyInfoSection from './components/sections/CompanyInfoSection.vue';
 import ThemeToggle from './components/ThemeToggle.vue';
-
 </script>
 
 <template>
