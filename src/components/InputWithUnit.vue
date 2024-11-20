@@ -25,11 +25,9 @@ const emit = defineEmits(['update:modelValue']);
 				:value="modelValue"
 				@input="$emit('update:modelValue', $event.target.value)"
 				class="input-field"
-				:class="{ 'error': error }"
 			/>
 			<span class="unit">{{ unit }}</span>
 		</div>
-		<span v-if="error" class="error-message">{{ errorMessage }}</span>
 	</div>
 </template>
 

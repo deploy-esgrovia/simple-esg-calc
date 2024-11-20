@@ -5,12 +5,10 @@ import HeatingSourcesSection from './components/sections/HeatingSourcesSection.v
 import VehicleSection from './components/sections/VehicleSection.vue';
 import EmissionsSection from './components/sections/EmissionsSection.vue';
 import CompanyInfoSection from './components/sections/CompanyInfoSection.vue';
-import ThemeToggle from './components/ThemeToggle.vue';
 </script>
 
 <template>
 	<div class="app">
-		<ThemeToggle />
 		<h1>Výpočet uhlíkové stopy</h1>
 		<div class="form-container">
 			<EnergySection />

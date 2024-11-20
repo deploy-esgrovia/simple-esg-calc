@@ -1,11 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
 import SourceInput from '../SourceInput.vue';
-
-const store = useStore();
+import energyTypes from '../../options/energyTypes.js'
+import sourceLabels from '../../options/sourceLabelOptions.js'
 
 const annualConsumption = ref('');
 const selectedEnergyType = ref('regular');
@@ -16,16 +15,6 @@ const energySources = ref({
   water: '',
   nuclear: ''
 });
-
-onMounted(() => {
-  const savedData = store.state.formData.energy;
-  if (savedData) {
-    annualConsumption.value = savedData.annualConsumption;
-    selectedEnergyType.value = savedData.energyType;
-    energySources.value = { ...savedData.energySources };
-  }
-});
-
 </script>
 
 <template>
@@ -48,18 +37,9 @@ onMounted(() => {
 
 		<div class="form-group">
 			<h3>Jakou elektřinu odebíráte?</h3>
-			<TypeSelector v-model="selectedEnergyType" />
+			<TypeSelector v-model="selectedEnergyType" :energyTypes="energyTypes" />
 		</div>
-
-		<div class="energy-sources">
-			<SourceInput
-				v-for="(value, source) in energySources"
-				:key="source"
-				:source-type="source"
-				v-model="energySources[source]"
-			/>
-		</div>
-
+		# TODO: Add SourceInput components for each energy source
 	</div>
 </template>
 

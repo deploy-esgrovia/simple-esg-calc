@@ -1,18 +1,12 @@
 <script setup>
+import sourceLabels from '../options/sourceLabelOptions';
 const props = defineProps({
   sourceType: String,
-  modelValue: [String, Number]
+  modelValue: [String, Number],
+  unit: String,
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const sourceLabels = {
-  photovoltaic: 'Fotovoltaika',
-  biomass: 'Biomasa / bioplyn',
-  wind: 'Vítr',
-  water: 'Voda',
-  nuclear: 'Jádro'
-};
 </script>
 
 <template>
@@ -25,7 +19,7 @@ const sourceLabels = {
 				@input="emit('update:modelValue', $event.target.value)"
 				class="source-input"
 			/>
-			<span class="unit">MWh / rok</span>
+      <span class="unit">{{ unit }}</span>
 		</div>
 	</div>
 </template>
