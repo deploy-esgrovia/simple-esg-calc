@@ -1,11 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 import InputWithUnit from '../InputWithUnit.vue';
 
-const store = useStore();
-
-const hasVehicles = ref(false);
 const vehicleData = ref({
   company: {
     benzin: '',
@@ -23,13 +19,6 @@ const vehicleData = ref({
   }
 });
 
-const saveData = () => {
-  store.dispatch('saveVehicleData', {
-    hasVehicles: hasVehicles.value,
-    vehicleData: vehicleData.value
-  });
-};
-
 const fuelTypes = [
   { id: 'benzin', label: 'Benzín' },
   { id: 'nafta', label: 'Nafta' },
@@ -37,6 +26,33 @@ const fuelTypes = [
   { id: 'lpg', label: 'LPG' },
   { id: 'elektrina', label: 'Elektřina' }
 ];
+const fuelConsumption = [
+  {
+    id: 'benzin', label: 'l / rok'
+  },
+  {
+    id: 'nafta', label: 'l / rok'
+  },
+  {
+    id: 'cng', label: 'kg / rok'
+  },
+  {
+    id: 'lpg', label: 'kg / rok'
+  },
+  {
+    id: 'elektrina', label: 'MWh / rok'
+  }
+]
+
+const machinesData = ref({
+  company: {
+    benzin: '',
+    nafta: '',
+    cng: '',
+    lpg: '',
+    elektrina: ''
+  }
+});
 </script>
 
 <template>
@@ -68,6 +84,19 @@ const fuelTypes = [
 						:label="`Nájezd km na ${fuel.label.toLowerCase()}`"
 						v-model="vehicleData.personal[fuel.id]"
 						unit="km / rok"
+					/>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<h3>Stroje</h3>
+			<div class="fuel-inputs">
+				<div v-for="fuel in fuelTypes" :key="fuel.id" class="fuel-input">
+					<InputWithUnit
+						:label="`Nájezd hodin na ${fuel.label.toLowerCase()}`"
+						v-model="machinesData.company[fuel.id]"
+						:unit="fuelConsumption.find(consumption => consumption.id === fuel.id).label"
 					/>
 				</div>
 			</div>
