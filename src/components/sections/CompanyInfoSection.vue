@@ -1,18 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-
-const store = useStore();
+import InputWithUnit from '../InputWithUnit.vue';
 
 const companyInfo = ref({
   ico: '',
   name: '',
   email: ''
 });
-
-const saveData = () => {
-  store.dispatch('saveCompanyInfo', companyInfo.value);
-};
 </script>
 
 <template>
@@ -29,18 +24,15 @@ const saveData = () => {
 		</div>
 
 		<div class="form-group">
-			<label class="input-label">IČO</label>
-			<input type="text" v-model="companyInfo.ico" class="input-field" />
+			<InputWithUnit label="IČO" v-model="companyInfo.ico" />
 		</div>
 
 		<div class="form-group">
-			<label class="input-label">Název firmy</label>
-			<input type="text" v-model="companyInfo.name" class="input-field" />
+			<InputWithUnit label="Název firmy" v-model="companyInfo.name" />
 		</div>
 
 		<div class="form-group">
-			<label class="input-label">Váš pracovní e-mail</label>
-			<input type="email" v-model="companyInfo.email" class="input-field" />
+			<InputWithUnit label="E-mail" v-model="companyInfo.email" />
 		</div>
 	</div>
 </template>
@@ -59,6 +51,7 @@ const saveData = () => {
   background-color: var(--notice-bg);
   border-radius: 8px;
   margin-bottom: 2rem;
+  border: 1px solid black;
 }
 
 .info-icon {
