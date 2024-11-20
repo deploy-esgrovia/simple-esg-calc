@@ -24,15 +24,15 @@ const companyInfo = ref({
 		</div>
 
 		<div class="form-group">
-			<InputWithUnit label="IČO" v-model="companyInfo.ico" />
+			<InputWithUnit type="text" label="IČO" v-model="companyInfo.ico" />
 		</div>
 
 		<div class="form-group">
-			<InputWithUnit label="Název firmy" v-model="companyInfo.name" />
+			<InputWithUnit type="text" label="Název firmy" v-model="companyInfo.name" />
 		</div>
 
 		<div class="form-group">
-			<InputWithUnit label="E-mail" v-model="companyInfo.email" />
+			<InputWithUnit type="text" label="E-mail" v-model="companyInfo.email" />
 		</div>
 	</div>
 </template>

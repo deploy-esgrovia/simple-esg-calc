@@ -3,6 +3,10 @@ const props = defineProps({
   label: String,
   modelValue: [String, Number],
   unit: String,
+  type: {
+    type: String,
+    default: 'number'
+  },
   error: {
     type: Boolean,
     default: false
@@ -10,25 +14,25 @@ const props = defineProps({
   errorMessage: {
     type: String,
     default: ''
-  }
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-	<div class="input-group">
-		<label class="input-label">{{ label }}</label>
-		<div class="input-with-unit">
-			<input
-				type="number"
-				:value="modelValue"
-				@input="$emit('update:modelValue', $event.target.value)"
-				class="input-field"
-			/>
-			<span class="unit">{{ unit }}</span>
-		</div>
-	</div>
+  <div class="input-group">
+    <label class="input-label">{{ label }}</label>
+    <div class="input-with-unit">
+      <input
+        :type="type"
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+        class="input-field"
+      />
+      <span class="unit">{{ unit }}</span>
+    </div>
+  </div>
 </template>
 
 <style scoped>
