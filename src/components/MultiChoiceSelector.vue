@@ -18,7 +18,7 @@ const selectedTab = ref(null); // Track which tab is currently selected
 		<!-- Title of the expandable card -->
 		<div class="card-header" @click="isOpen = !isOpen">
 			<h3>{{ props.title }}</h3>
-			<span>{{ isOpen ? '▲' : '▼' }}</span>
+            <input type="checkbox" v-model="isOpen" />
 		</div>
 
 		<!-- Expandable section with tabs and input fields -->

@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import InputWithUnit from '../InputWithUnit.vue';
 import MultiChoiceSelector from '../MultiChoiceSelector.vue';
 
 // Stores for the form data
