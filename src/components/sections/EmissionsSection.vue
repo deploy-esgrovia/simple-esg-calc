@@ -1,18 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 
-const hasEmissions = ref(false);
-const emissions = ref({
-  co2: '',
-  ch4: '',
-  nf3: '',
-  n2o: '',
-  sf6: '',
-  r23: '',
-  r32: '',
-  r125: ''
+const props = defineProps({
+  modelValue: Object,
 });
+
+const emit = defineEmits(['update:modelValue']);
+
+const hasEmissions = ref(false);
+const emissionsAmounts = ref({});
 
 const emissionTypes = [
   { id: 'co2', label: 'Oxid uhličitý/CO₂' },
@@ -35,7 +32,7 @@ const additionalEmissionTypes = [
   { id: 'r116', label: 'R-116/Hexafluorethan' }
 ];
 
-const addedEmissions = ref([]); // Track dynamically added emissions
+const addedEmissions = ref([]);
 
 // Add a new custom emission
 const addEmission = () => {
@@ -46,6 +43,25 @@ const addEmission = () => {
 const removeEmission = (index) => {
   addedEmissions.value.splice(index, 1);
 };
+
+// Watch for changes in emissions-related data
+watch(
+  [hasEmissions, emissionsAmounts, addedEmissions],
+  () => {
+    const updatedModelValue = {
+      ...props.modelValue,
+      emissions: hasEmissions.value
+        ? {
+            predefined: { ...emissionsAmounts.value },
+            custom: addedEmissions.value.filter(e => e.type && e.value),
+          }
+        : null,
+    };
+
+    emit('update:modelValue', updatedModelValue);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -71,7 +87,7 @@ const removeEmission = (index) => {
 			<div v-for="emission in emissionTypes" :key="emission.id" class="emission-input">
 				<InputWithUnit
 					:label="emission.label"
-					v-model="emissions[emission.id]"
+					v-model="emissionsAmounts[emission.id]"
 					unit="kg / rok"
 				/>
 			</div>
