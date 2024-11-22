@@ -1,11 +1,19 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 
+const props = defineProps({
+	modelValue: Object,
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+// Heat Section Data
 const useHeat = ref(false);
 const selectedHeatSources = ref([]);
 const heatSourceAmounts = reactive({});
 
+// Steam Section Data
 const useSteam = ref(false);
 const selectedSteamSources = ref([]);
 const steamSourceAmounts = reactive({});
@@ -18,16 +26,39 @@ const sourceOptions = [
 ];
 
 const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
-  if (sourceArray.includes(sourceId)) {
-    // Remove the source and delete its amount entry
-    sourceArray.splice(sourceArray.indexOf(sourceId), 1);
-    delete sourceAmounts[sourceId];
-  } else {
-    // Add the source and initialize its amount
-    sourceArray.push(sourceId);
-    sourceAmounts[sourceId] = ''; // Initialize with an empty string or default value
-  }
+	if (sourceArray.includes(sourceId)) {
+		sourceArray.splice(sourceArray.indexOf(sourceId), 1);
+		delete sourceAmounts[sourceId];
+	} else {
+		sourceArray.push(sourceId);
+		sourceAmounts[sourceId] = '';
+	}
 };
+
+// Watch for Changes to Heat and Steam Data
+watch(
+	[useHeat, selectedHeatSources, heatSourceAmounts, useSteam, selectedSteamSources, steamSourceAmounts],
+	() => {
+		const updatedModelValue = {
+		...props.modelValue,
+		heat: useHeat.value
+			? {
+				sources: selectedHeatSources.value,
+				amounts: { ...heatSourceAmounts },
+			}
+			: null, // Remove heat data if not used
+		steam: useSteam.value
+			? {
+				sources: selectedSteamSources.value,
+				amounts: { ...steamSourceAmounts },
+			}
+			: null, // Remove steam data if not used
+		};
+
+    emit('update:modelValue', updatedModelValue);
+	},
+	{ deep: true }
+);
 </script>
 
 <template>
