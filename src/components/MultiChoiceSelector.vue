@@ -1,16 +1,16 @@
 <script setup>
-import { ref, watch, defineProps, defineEmits, reactive } from 'vue';
+import { ref, watch, defineEmits, reactive } from 'vue';
 import InputWithUnit from './InputWithUnit.vue';
 
 // Reactive states to manage expansion and selected tab
-const isOpen = ref(false); // Track if the card is open or collapsed
-const selectedTab = ref(null); // Track which tab is currently selected
+const isOpen = ref(false); 
+const selectedTab = ref(null);
 
 // Props to pass the data into the component
 const props = defineProps({
-  title: String, // The title for the card
-  categories: Object, // List of categories with labels and input field data
-  modelValue: Object, // The model value to bind the input fields
+  title: String,
+  categories: Object,
+  modelValue: Object,
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -22,44 +22,26 @@ const dataByCategory = reactive({});
 watch(
   () => props.categories,
   () => {
-    // Populate dataByCategory with modelValue or default to empty strings
     for (const [categoryId, category] of Object.entries(props.categories)) {
-      // Initialize the category if it doesn't exist
-      if (!dataByCategory[categoryId]) {
-        dataByCategory[categoryId] = {}; // Create an empty object for this category
-      }
+		if (!dataByCategory[categoryId]) {
+			dataByCategory[categoryId] = {};
+		}
+		for (const input of category.inputs) {
+			if (!dataByCategory[categoryId][input.id]) {
+				dataByCategory[categoryId][input.id] = "";
+			}
+		}
+	}
+}, { immediate: true });
 
-      // Loop over the inputs for each category
-      for (const input of category.inputs) {
-        // Initialize the input key with modelValue or empty string if it doesn't exist
-        if (!dataByCategory[categoryId][input.id]) {
-          dataByCategory[categoryId][input.id] = props.modelValue?.[categoryId]?.[input.id] || '';
-        }
-      }
-    }
-  },
-  { immediate: true } // Run immediately on mount to initialize the data
-);
 
 // Emit the updated modelValue whenever dataByCategory changes
 watch(
-  dataByCategory,
-  (newDataByCategory) => {
-    const updatedModelValue = {};
-
-    // Loop through the categories to prepare the updated model value
-    for (const [categoryId, category] of Object.entries(props.categories)) {
-      updatedModelValue[categoryId] = {
-        inputs: category.inputs.map((input) => ({
-          id: input.id,
-          value: newDataByCategory[categoryId]?.[input.id] || '', // Default to empty string if not found
-        })),
-      };
-    }
-
-    emit('update:modelValue', updatedModelValue);
-  },
-  { deep: true } // Watch deeply for changes
+	dataByCategory,
+	(newDataByCategory) => {
+		emit('update:modelValue', newDataByCategory);
+	},
+	{ deep: true }
 );
 </script>
 
@@ -87,7 +69,7 @@ watch(
 
 			<!-- Input fields for the selected tab -->
 			<div
-				v-for="category in props.categories"
+				v-for="(category, categoryId) in props.categories"
 				:key="category.label"
 				v-show="selectedTab === category.label"
 			>
@@ -96,7 +78,7 @@ watch(
 					<InputWithUnit
 						:label="input.label"
 						:unit="input.unit"
-						v-model="dataByCategory[category.id]"
+						v-model="dataByCategory[categoryId][input.id]"
 					/>
 				</div>
 			</div>
