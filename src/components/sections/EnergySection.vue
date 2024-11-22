@@ -1,11 +1,26 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
 
-const annualConsumption = ref('');
-const selectedEnergyType = ref('regular');
+const props = defineProps({
+	modelValue: Object,
+});
 
+const emit = defineEmits(['update:modelValue']);
+
+// Data
+const annualConsumption = ref(props.modelValue.annualConsumption || '');
+const selectedEnergyType = ref(props.modelValue.selectedEnergyType || 'regular');
+const sourceTypeValues = ref(props.modelValue.sourceTypeValues || {
+	photovoltaic: '',
+	biomass: '',
+	wind: '',
+	water: '',
+	nuclear: '',
+});
+
+// Constants
 const sourceTypeLabels = {
 	photovoltaic: "Fotovoltaika",
 	biomass: "Biomasa / bioplyn",
@@ -31,6 +46,26 @@ const energyTypes = [
 		icon: "🤝",
 	},
 ];
+
+// Watch
+watch(
+	[annualConsumption, selectedEnergyType, sourceTypeValues],
+	() => {
+		const updatedModelValue = {
+			annualConsumption: annualConsumption.value,
+			selectedEnergyType: selectedEnergyType.value,
+		};
+
+		if (selectedEnergyType.value === 'guaranteed') {
+			// Include `sourceTypeValues` only when the selected type is 'guaranteed'
+			updatedModelValue.sourceTypeValues = sourceTypeValues.value;
+		}
+
+		// Emit the updated modelValue
+		emit('update:modelValue', updatedModelValue);
+	},
+	{ deep: true }
+);
 </script>
 
 <template>
@@ -57,8 +92,8 @@ const energyTypes = [
 		</div>
 
 		<div v-if="selectedEnergyType === 'guaranteed'" class="form-group">
-			<div v-for="source in sourceTypeLabels" :key="source">
-				<InputWithUnit :label="source" unit="MWh / rok" />
+			<div v-for="(label, source) in sourceTypeLabels" :key="source">
+				<InputWithUnit :label="label" v-model="sourceTypeValues[source]" unit="MWh / rok" />
 			</div>
 		</div>
 	</div>
