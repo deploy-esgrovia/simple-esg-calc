@@ -21,8 +21,10 @@ const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-	<div class="input-group">
-		<label class="input-label">{{ label }}</label>
+	<div>
+		<label v-if="label" class="input-label">
+			{{ label }}
+		</label>
 		<div class="input-with-unit">
 			<input
 				:type="type"
@@ -36,12 +38,9 @@ const emit = defineEmits(['update:modelValue']);
 </template>
 
 <style scoped>
-.input-group {
-  margin-bottom: 1rem;
-}
-
 .input-label {
   display: block;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
