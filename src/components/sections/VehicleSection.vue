@@ -1,38 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { watch, defineProps, defineEmits, ref, reactive } from 'vue';
 import MultiChoiceSelector from '../MultiChoiceSelector.vue';
 
-// Stores for the form data
-const vehicleData = ref({
-  cars: {
-    benzin: '',
-    nafta: '',
-    cng: '',
-    lpg: '',
-    elektrina: ''
-  },
-  trucks: {
-    benzin: '',
-    nafta: '',
-    cng: '',
-    lpg: '',
-    elektrina: ''
-  }
-});
-
-const machinesData = ref({
-  machines: {
-    benzin: '',
-    nafta: '',
-    cng: '',
-    lpg: '',
-    elektrina: ''
-  }
-});
-
 // Input data for the components
-const vehicleInputData = {
+const carsInputData = {
   totalMilage: {
+    id: 'totalMilage',
     label: "Najeté kilometry",
     inputs: [
       { id: 'benzin', unit: 'km / rok', label: "Najeté km na benzín" },
@@ -54,7 +27,18 @@ const vehicleInputData = {
   }
 }
 
-const machinedInputData = {
+const trucksInputData = {
+  totalMilage: {
+    id: 'totalMilage',
+    label: "Najeté kilometry",
+    inputs: [
+      { id: 'benzin', unit: 'km / rok', label: "Najeté km na benzín" },
+      { id: 'nafta', unit: 'km / rok', label: "Najeté km na naftu" },
+      { id: 'cng', unit: 'km / rok', label: "Najeté km na CNG" },
+      { id: 'lpg', unit: 'km / rok', label: "Najeté km na LPG" },
+      { id: 'elektrina', unit: 'km / rok', label: "Najeté km na elektřinu" }
+    ]
+  },
   fuelConsumption: {
     label: "Spotřebované palivo",
     inputs: [
@@ -66,17 +50,70 @@ const machinedInputData = {
     ]
   }
 }
+
+const machinesInputData = {
+  fuelConsumption: {
+    id: 'fuelConsumption',
+    label: "Spotřebované palivo",
+    inputs: [
+      { id: 'benzin', unit: 'l / rok', label: "Spotřeba benzínu" },
+      { id: 'nafta', unit: 'l / rok', label: "Spotřeba nafty" },
+      { id: 'cng', unit: 'kg / rok', label: "Spotřeba CNG" },
+      { id: 'lpg', unit: 'kg / rok', label: "Spotřeba LPG" },
+      { id: 'elektrina', unit: 'MWh / rok', label: "Spotřeba elektřiny" }
+    ]
+  }
+}
+
+// Props
+const props = defineProps({
+  modelValue: Object,
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+// Prepare the data for the MultiChoiceSelector components
+const vehiclesSectionData = reactive({
+  cars: props.modelValue.cars || {},
+  trucks: props.modelValue.trucks || {},
+  machines: props.modelValue.machines || {}
+});
+
+watch(
+  [vehiclesSectionData],
+  () => {
+    const updatedModelValue = {
+      cars: vehiclesSectionData.cars,
+      trucks: vehiclesSectionData.trucks,
+      machines: vehiclesSectionData.machines
+    };
+    emit('update:modelValue', updatedModelValue);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
 	<div>
-		<MultiChoiceSelector title="Automobily" :categories="vehicleInputData" />
+		<MultiChoiceSelector
+			title="Automobily"
+			:categories="carsInputData"
+			v-model="vehiclesSectionData.cars"
+		/>
 	</div>
 	<div>
-		<MultiChoiceSelector title="Nákladní auta" :categories="vehicleInputData" />
+		<MultiChoiceSelector
+			title="Nákladní auta"
+			:categories="trucksInputData"
+			v-model="vehiclesSectionData.trucks"
+		/>
 	</div>
 	<div>
-		<MultiChoiceSelector title="Stroje" :categories="machinedInputData" />
+		<MultiChoiceSelector
+			title="Stroje"
+			:categories="machinesInputData"
+			v-model="vehiclesSectionData.machines"
+		/>
 	</div>
 </template>
 
