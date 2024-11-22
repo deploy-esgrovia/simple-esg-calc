@@ -1,16 +1,18 @@
 <script setup>
 import { ref } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
+import MultiChoiceSelector from '../MultiChoiceSelector.vue';
 
+// Stores for the form data
 const vehicleData = ref({
-  company: {
+  cars: {
     benzin: '',
     nafta: '',
     cng: '',
     lpg: '',
     elektrina: ''
   },
-  personal: {
+  trucks: {
     benzin: '',
     nafta: '',
     cng: '',
@@ -20,7 +22,7 @@ const vehicleData = ref({
 });
 
 const machinesData = ref({
-  company: {
+  machines: {
     benzin: '',
     nafta: '',
     cng: '',
@@ -29,77 +31,53 @@ const machinesData = ref({
   }
 });
 
-const fuelTypes = [
-  { id: 'benzin', label: 'Benzín' },
-  { id: 'nafta', label: 'Nafta' },
-  { id: 'cng', label: 'CNG' },
-  { id: 'lpg', label: 'LPG' },
-  { id: 'elektrina', label: 'Elektřina' }
-];
+// Input data for the components
+const vehicleInputData = {
+  totalMilage: {
+    label: "Najeté kilometry",
+    inputs: [
+      { id: 'benzin', unit: 'km / rok', label: "Najeté km na benzín" },
+      { id: 'nafta', unit: 'km / rok', label: "Najeté km na naftu" },
+      { id: 'cng', unit: 'km / rok', label: "Najeté km na CNG" },
+      { id: 'lpg', unit: 'km / rok', label: "Najeté km na LPG" },
+      { id: 'elektrina', unit: 'km / rok', label: "Najeté km na elektřinu" }
+    ]
+  },
+  fuelConsumption: {
+    label: "Spotřebované palivo",
+    inputs: [
+      { id: 'benzin', unit: 'l / rok', label: "Spotřeba benzínu" },
+      { id: 'nafta', unit: 'l / rok', label: "Spotřeba nafty" },
+      { id: 'cng', unit: 'kg / rok', label: "Spotřeba CNG" },
+      { id: 'lpg', unit: 'kg / rok', label: "Spotřeba LPG" },
+      { id: 'elektrina', unit: 'MWh / rok', label: "Spotřeba elektřiny" }
+    ]
+  }
+}
 
-const fuelConsumptionUnits = [
-  { id: 'benzin', label: 'l / rok' },
-  { id: 'nafta', label: 'l / rok' },
-  { id: 'cng', label: 'kg / rok' },
-  { id: 'lpg', label: 'kg / rok' },
-  { id: 'elektrina', label: 'MWh / rok' }
-]
-
-const totalMilageUnits = [
-  { id: 'benzin', label: 'km / rok' },
-  { id: 'nafta', label: 'km / rok' },
-  { id: 'cng', label: 'km / rok' },
-  { id: 'lpg', label: 'km / rok' },
-  { id: 'elektrina', label: 'km / rok' }
-]
+const machinedInputData = {
+  fuelConsumption: {
+    label: "Spotřebované palivo",
+    inputs: [
+      { id: 'benzin', unit: 'l / rok', label: "Spotřeba benzínu" },
+      { id: 'nafta', unit: 'l / rok', label: "Spotřeba nafty" },
+      { id: 'cng', unit: 'kg / rok', label: "Spotřeba CNG" },
+      { id: 'lpg', unit: 'kg / rok', label: "Spotřeba LPG" },
+      { id: 'elektrina', unit: 'MWh / rok', label: "Spotřeba elektřiny" }
+    ]
+  }
+}
 </script>
 
 <template>
-	<div class="vehicle-section">
-		<h2 class="section-title">Automobily a stroje</h2>
-		<p class="section-description">
-			Jezdí ve firmě používáte auta nebo stroje, včetně aut z leasingu. Promítne se do
-			spotřeby.
-		</p>
-
-		<div class="form-group">
-			<h3>Osobní automobily</h3>
-			<div class="fuel-inputs">
-				<div v-for="fuel in fuelTypes" :key="fuel.id" class="fuel-input">
-					<InputWithUnit
-						:label="`Nájezd km na ${fuel.label.toLowerCase()}`"
-						v-model="vehicleData.company[fuel.id]"
-						:unit="totalMilageUnits.find(consumption => consumption.id === fuel.id).label"
-					/>
-				</div>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<h3>Nákladní automobily</h3>
-			<div class="fuel-inputs">
-				<div v-for="fuel in fuelTypes" :key="fuel.id" class="fuel-input">
-					<InputWithUnit
-						:label="`Nájezd km na ${fuel.label.toLowerCase()}`"
-						v-model="vehicleData.personal[fuel.id]"
-						:unit="totalMilageUnits.find(consumption => consumption.id === fuel.id).label"
-					/>
-				</div>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<h3>Stroje</h3>
-			<div class="fuel-inputs">
-				<div v-for="fuel in fuelTypes" :key="fuel.id" class="fuel-input">
-					<InputWithUnit
-						:label="`Nájezd hodin na ${fuel.label.toLowerCase()}`"
-						v-model="machinesData.company[fuel.id]"
-						:unit="fuelConsumptionUnits.find(consumption => consumption.id === fuel.id).label"
-					/>
-				</div>
-			</div>
-		</div>
+	<div>
+		<MultiChoiceSelector title="Automobily" :categories="vehicleInputData" />
+	</div>
+	<div>
+		<MultiChoiceSelector title="Nákladní auta" :categories="vehicleInputData" />
+	</div>
+	<div>
+		<MultiChoiceSelector title="Stroje" :categories="machinedInputData" />
 	</div>
 </template>
 
