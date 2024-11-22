@@ -1,13 +1,30 @@
 <script setup>
-import { ref } from 'vue';
-import { useStore } from 'vuex';
+import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
+
+const props = defineProps({
+  modelValue: Object,
+  required: true,
+  default: () => ({})
+});
+
+const emit = defineEmits(['update:modelValue']);
 
 const companyInfo = ref({
   ico: '',
   name: '',
   email: ''
 });
+
+// Watcher for Company Info Data
+watch(companyInfo, () => {
+  const updatedModelValue = {
+    ...props.modelValue,
+    companyInfo: companyInfo.value
+  }
+
+  emit('update:modelValue', updatedModelValue);
+  }, { deep: true });
 </script>
 
 <template>
