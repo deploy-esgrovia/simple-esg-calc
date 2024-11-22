@@ -1,15 +1,16 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
+
+const props = defineProps({
+  modelValue: Object,
+});
+
+const emit = defineEmits(['update:modelValue']);
 
 const hasBoiler = ref(false);
 const selectedFuels = ref([]);
-const fuelConsumptionAmounts = ref({
-  oil: '',
-  gas: '',
-  coal: '',
-  wood: ''
-});
+const fuelConsumptionAmounts = ref({});
 
 const fuelOptions = [
   { id: 'coal', label: 'Uhlí', icon: '🚂' },
@@ -27,15 +28,32 @@ const units = {
 
 const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
   if (sourceArray.includes(sourceId)) {
-    // Remove the source and delete its amount entry
     sourceArray.splice(sourceArray.indexOf(sourceId), 1);
     delete sourceAmounts[sourceId];
   } else {
-    // Add the source and initialize its amount
     sourceArray.push(sourceId);
-    sourceAmounts[sourceId] = ''; // Initialize with an empty string or default value
+    sourceAmounts[sourceId] = '';
   }
 };
+
+// Watch for Changes to Boiler and Fuel Data
+watch(
+  [hasBoiler, selectedFuels, fuelConsumptionAmounts],
+  () => {
+    const updatedModelValue = {
+      ...props.modelValue,
+      boiler: hasBoiler.value
+        ? {
+            fuels: selectedFuels.value,
+            amounts: { ...fuelConsumptionAmounts.value },
+          }
+        : null,
+    };
+
+    emit('update:modelValue', updatedModelValue);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
