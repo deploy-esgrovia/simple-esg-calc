@@ -94,6 +94,8 @@ watch(
 </script>
 
 <template>
+	<h2>Automobily a stroje</h2>
+	<p>Jestli ve firmě používáte auta nebo stroje, uveďte jaké, a doplňte informace o spotřebě.</p>
 	<div>
 		<MultiChoiceSelector
 			title="Automobily"
