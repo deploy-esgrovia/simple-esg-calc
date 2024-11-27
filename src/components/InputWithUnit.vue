@@ -21,57 +21,23 @@ const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-	<div>
-		<label v-if="label" class="input-label">
+	<div class="space-y-2 mb-4">
+		<label v-if="label" class="block text-sm font-medium text-gray-700">
 			{{ label }}
 		</label>
-		<div class="input-with-unit">
+		<div class="flex items-center space-x-2">
 			<input
 				:type="type"
 				:value="modelValue"
 				@input="$emit('update:modelValue', $event.target.value)"
-				class="input-field"
+				class="flex-1 px-3 py-2 border rounded-md text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 
+        transition duration-150 ease-in-out
+        border-gray-300"
 			/>
-			<span class="unit">{{ unit }}</span>
+			<span class="text-sm text-black">{{ unit }}</span>
 		</div>
+		<span v-if="error && errorMessage" class="text-sm text-red-500">
+			{{ errorMessage }}
+		</span>
 	</div>
 </template>
-
-<style scoped>
-.input-label {
-  display: block;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.input-with-unit {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.input-field {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.input-field.error {
-  border-color: #dc3545;
-}
-
-.unit {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.error-message {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  display: block;
-}
-</style>
