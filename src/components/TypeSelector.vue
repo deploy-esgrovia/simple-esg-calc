@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  modelValue: String,
+  modelValue: String | Object,
   energyTypes: {
     type: Array,
     required: true
@@ -18,7 +18,7 @@ const emit = defineEmits(['update:modelValue']);
 			@click="emit('update:modelValue', type.id)"
 			:class="[
         'flex-1 p-4 border-2 rounded-lg cursor-pointer flex flex-col items-center gap-2 transition duration-200',
-        modelValue === type.id
+        modelValue.includes(type.id)
           ? 'border-blue-600 bg-blue-50'
           : 'border-gray-300 hover:border-blue-600'
       ]"
