@@ -41,7 +41,7 @@ const handleSubmit = () => {
 		<div>
 			<button
 				@click="handleSubmit"
-				class="block mx-auto my-8 py-4 px-8 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
+				class="block mx-auto my-8 py-3 px-8 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
 			>
 				Submit
 			</button>
