@@ -42,7 +42,7 @@ watch([annualConsumption, selectedEnergyType, sourceTypeValues], () => {
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Nakupovaná elektrická energie</h2>
 		<p class="text-gray-600 mb-8">
 			Zadejte roční spotřebu a původ elektřiny. Pokud ji neznáte, podívejte se do posledního

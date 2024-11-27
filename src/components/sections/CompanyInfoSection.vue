@@ -18,7 +18,7 @@ watch(companyInfo, () => {
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl mb-4">Informace o vaší firmě</h2>
 		<p class="text-gray-600 mb-6">Už jen několik informací o vaší firmě a máme hotovo.</p>
 

@@ -45,7 +45,7 @@ watch(
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Vlastní zdroje topení a vytápění</h2>
 		<p class="text-gray-600 mb-8">
 			Máte kotelnu, kterou využíváte pro vytápění prostor nebo provoz technologie? Pokud ano,

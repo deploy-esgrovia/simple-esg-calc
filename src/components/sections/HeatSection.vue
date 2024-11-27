@@ -46,7 +46,7 @@ watch(
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Nakupované teplo a pára</h2>
 		<p class="text-gray-600 mb-8">
 			Odebíráte teplo nebo páru od dodavatele? Pokud ano, vyberte zdroj a množství.

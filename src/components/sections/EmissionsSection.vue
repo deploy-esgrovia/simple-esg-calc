@@ -52,7 +52,7 @@ watch(
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto p-8">
+  <div class="max-w-4xl mx-auto p-6">
     <h2 class="text-2xl text-gray-900 mb-4">Skleníkové plyny a další emise</h2>
     <p class="text-gray-600 mb-8">
       Jestli produkujete během výroby nějaké další přímé emise, vyberte je a zadejte objem.

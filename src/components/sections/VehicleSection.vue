@@ -86,7 +86,7 @@ watch(
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Automobily a stroje</h2>
 		<p class="text-gray-600 mb-8">
 			Jestli ve firmě používáte auta nebo stroje, uveďte jaké, a doplňte informace o spotřebě.
