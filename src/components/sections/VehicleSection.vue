@@ -1,5 +1,5 @@
 <script setup>
-import { watch, defineProps, defineEmits, ref, reactive } from 'vue';
+import { watch, reactive } from 'vue';
 import MultiChoiceSelector from '../MultiChoiceSelector.vue';
 
 // Input data for the components

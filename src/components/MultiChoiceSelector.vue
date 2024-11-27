@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, defineEmits, reactive } from 'vue';
+import { ref, watch, reactive } from 'vue';
 import InputWithUnit from './InputWithUnit.vue';
 
 // Reactive states to manage expansion and selected tab
