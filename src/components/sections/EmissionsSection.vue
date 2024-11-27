@@ -1,12 +1,9 @@
 <script setup>
 import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-  modelValue: Object,
-});
-
-const emit = defineEmits(['update:modelValue']);
+const { formData } = useFormStore();
 
 const hasEmissions = ref(false);
 const emissionsAmounts = ref({});
@@ -48,19 +45,9 @@ const removeEmission = (index) => {
 watch(
   [hasEmissions, emissionsAmounts, addedEmissions],
   () => {
-    const updatedModelValue = {
-      ...props.modelValue,
-      emissions: hasEmissions.value
-        ? {
-            predefined: { ...emissionsAmounts.value },
-            custom: addedEmissions.value.filter(e => e.type && e.value),
-          }
-        : null,
-    };
-
-    emit('update:modelValue', updatedModelValue);
-  },
-  { deep: true }
+    formData.emissions.predefined = emissionsAmounts.value;
+    formData.emissions.custom = addedEmissions.value;
+  }, { deep: true }
 );
 </script>
 

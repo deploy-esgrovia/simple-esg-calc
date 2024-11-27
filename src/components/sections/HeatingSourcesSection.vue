@@ -2,58 +2,45 @@
 import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-  modelValue: Object,
-});
-
-const emit = defineEmits(['update:modelValue']);
+const { formData } = useFormStore();
 
 const hasBoiler = ref(false);
 const selectedFuels = ref([]);
 const fuelConsumptionAmounts = ref({});
 
 const fuelOptions = [
-  { id: 'coal', label: 'Uhlí', icon: '🚂' },
-  { id: 'gas', label: 'Zemní plyn', icon: '🔥' },
-  { id: 'wood', label: 'Dřevo', icon: '🌳' },
-  { id: 'oil', label: 'Lehký topný olej', icon: '💧' }
+	{ id: 'coal', label: 'Uhlí', icon: '🚂' },
+	{ id: 'gas', label: 'Zemní plyn', icon: '🔥' },
+	{ id: 'wood', label: 'Dřevo', icon: '🌳' },
+	{ id: 'oil', label: 'Lehký topný olej', icon: '💧' }
 ];
 
 const units = {
-  oil: 'l/rok',
-  gas: 'Nm³/rok',
-  coal: 't/rok',
-  wood: 't/rok'
+	oil: 'l/rok',
+	gas: 'Nm³/rok',
+	coal: 't/rok',
+	wood: 't/rok'
 };
 
 const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
-  if (sourceArray.includes(sourceId)) {
-    sourceArray.splice(sourceArray.indexOf(sourceId), 1);
-    delete sourceAmounts[sourceId];
-  } else {
-    sourceArray.push(sourceId);
-    sourceAmounts[sourceId] = '';
-  }
+	if (sourceArray.includes(sourceId)) {
+		sourceArray.splice(sourceArray.indexOf(sourceId), 1);
+		delete sourceAmounts[sourceId];
+	} else {
+		sourceArray.push(sourceId);
+		sourceAmounts[sourceId] = '';
+	}
 };
 
 // Watch for Changes to Boiler and Fuel Data
 watch(
-  [hasBoiler, selectedFuels, fuelConsumptionAmounts],
-  () => {
-    const updatedModelValue = {
-      ...props.modelValue,
-      boiler: hasBoiler.value
-        ? {
-            fuels: selectedFuels.value,
-            amounts: { ...fuelConsumptionAmounts.value },
-          }
-        : null,
-    };
-
-    emit('update:modelValue', updatedModelValue);
-  },
-  { deep: true }
+	[hasBoiler, selectedFuels, fuelConsumptionAmounts],
+	() => {
+		formData.heatingSources.selectedFuels = selectedFuels.value;
+		formData.heatingSources.fuelConsumptionAmounts = fuelConsumptionAmounts.value;
+	}, { deep: true }
 );
 </script>
 

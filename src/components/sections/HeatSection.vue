@@ -2,12 +2,10 @@
 import { ref, reactive, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-	modelValue: Object,
-});
-
-const emit = defineEmits(['update:modelValue']);
+// Use Pinia store
+const { formData } = useFormStore();
 
 // Heat Section Data
 const useHeat = ref(false);
@@ -40,23 +38,8 @@ const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
 watch(
 	[useHeat, selectedHeatSources, heatSourceAmounts, useSteam, selectedSteamSources, steamSourceAmounts],
 	() => {
-		const updatedModelValue = {
-			...props.modelValue,
-			heat: useHeat.value
-				? {
-						sources: selectedHeatSources.value,
-						amounts: { ...heatSourceAmounts },
-					}
-				: null, // Remove heat data if not used
-			steam: useSteam.value
-				? {
-						sources: selectedSteamSources.value,
-						amounts: { ...steamSourceAmounts },
-					}
-				: null, // Remove steam data if not used
-		};
-
-		emit('update:modelValue', updatedModelValue);
+		formData.heat.heatSourceAmounts = heatSourceAmounts;
+		formData.heat.steamSourceAmounts = steamSourceAmounts;
 	},
 	{ deep: true }
 );

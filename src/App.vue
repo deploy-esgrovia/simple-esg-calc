@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { useFormStore } from './stores/formStore';
 import EnergySection from './components/sections/EnergySection.vue';
 import HeatSection from './components/sections/HeatSection.vue';
 import HeatingSourcesSection from './components/sections/HeatingSourcesSection.vue';
@@ -7,14 +7,7 @@ import VehicleSection from './components/sections/VehicleSection.vue';
 import EmissionsSection from './components/sections/EmissionsSection.vue';
 import CompanyInfoSection from './components/sections/CompanyInfoSection.vue';
 
-const formData = reactive({
-	energy: {},
-	heat: {},
-	heatingSources: {},
-	vehicles: {},
-	emissions: {},
-	companyInfo: {}
-});
+const { formData } = useFormStore();
 
 const handleSubmit = () => {
 	const rawFormData = JSON.parse(JSON.stringify(formData));
@@ -26,17 +19,17 @@ const handleSubmit = () => {
 	<div class="max-w-5xl mx-auto p-8">
 		<h1 class="text-center text-3xl font-bold text-primary mb-8">Výpočet uhlíkové stopy</h1>
 		<div class="max-w-4xl mx-auto">
-			<EnergySection v-model="formData.energy" />
+			<EnergySection />
 			<div class="h-0.5 bg-gray-500 my-8 rounded opacity-70"></div>
-			<HeatSection v-model="formData.heat" />
+			<HeatSection />
 			<div class="h-0.5 bg-gray-500 my-8 rounded opacity-70"></div>
-			<HeatingSourcesSection v-model="formData.heatingSources" />
+			<HeatingSourcesSection />
 			<div class="h-0.5 bg-gray-500 my-8 rounded opacity-70"></div>
-			<VehicleSection v-model="formData.vehicles" />
+			<VehicleSection />
 			<div class="h-0.5 bg-gray-500 my-8 rounded opacity-70"></div>
-			<EmissionsSection v-model="formData.emissions" />
+			<EmissionsSection />
 			<div class="h-0.5 bg-gray-500 my-8 rounded opacity-70"></div>
-			<CompanyInfoSection v-model="formData.companyInfo" />
+			<CompanyInfoSection />
 		</div>
 		<div>
 			<button

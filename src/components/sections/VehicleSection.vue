@@ -1,6 +1,7 @@
 <script setup>
 import { watch, reactive } from 'vue';
 import MultiChoiceSelector from '../MultiChoiceSelector.vue';
+import { useFormStore } from '../../stores/formStore';
 
 // Input data for the components
 const carsInputData = {
@@ -65,29 +66,20 @@ const machinesInputData = {
   }
 }
 
-// Props
-const props = defineProps({
-  modelValue: Object,
-});
-
-const emit = defineEmits(['update:modelValue']);
+// Use pinia store
+const { formData } = useFormStore();
 
 // Prepare the data for the MultiChoiceSelector components
 const vehiclesSectionData = reactive({
-  cars: props.modelValue.cars || {},
-  trucks: props.modelValue.trucks || {},
-  machines: props.modelValue.machines || {}
+  cars: {},
+  trucks: {},
+  machines: {}
 });
 
 watch(
   [vehiclesSectionData],
   () => {
-    const updatedModelValue = {
-      cars: vehiclesSectionData.cars,
-      trucks: vehiclesSectionData.trucks,
-      machines: vehiclesSectionData.machines
-    };
-    emit('update:modelValue', updatedModelValue);
+    formData.vehicles = vehiclesSectionData;
   },
   { deep: true }
 );

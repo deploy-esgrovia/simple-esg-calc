@@ -1,30 +1,20 @@
 <script setup>
 import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-  modelValue: Object,
-  required: true,
-  default: () => ({})
-});
-
-const emit = defineEmits(['update:modelValue']);
+const { formData } = useFormStore();
 
 const companyInfo = ref({
-  ico: '',
-  name: '',
-  email: ''
+	ico: '',
+	name: '',
+	email: ''
 });
 
 // Watcher for Company Info Data
 watch(companyInfo, () => {
-  const updatedModelValue = {
-    ...props.modelValue,
-    companyInfo: companyInfo.value
-  }
-
-  emit('update:modelValue', updatedModelValue);
-  }, { deep: true });
+	formData.companyInfo = companyInfo.value;
+}, { deep: true });
 </script>
 
 <template>
