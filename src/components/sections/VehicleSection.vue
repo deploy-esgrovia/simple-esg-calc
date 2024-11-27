@@ -94,59 +94,31 @@ watch(
 </script>
 
 <template>
-	<h2>Automobily a stroje</h2>
-	<p>Jestli ve firmě používáte auta nebo stroje, uveďte jaké, a doplňte informace o spotřebě.</p>
-	<div>
-		<MultiChoiceSelector
-			title="Automobily"
-			:categories="carsInputData"
-			v-model="vehiclesSectionData.cars"
-		/>
-	</div>
-	<div>
-		<MultiChoiceSelector
-			title="Nákladní auta"
-			:categories="trucksInputData"
-			v-model="vehiclesSectionData.trucks"
-		/>
-	</div>
-	<div>
-		<MultiChoiceSelector
-			title="Stroje"
-			:categories="machinesInputData"
-			v-model="vehiclesSectionData.machines"
-		/>
+	<div class="max-w-4xl mx-auto p-8">
+		<h2 class="text-2xl text-gray-900 mb-4">Automobily a stroje</h2>
+		<p class="text-gray-600 mb-8">
+			Jestli ve firmě používáte auta nebo stroje, uveďte jaké, a doplňte informace o spotřebě.
+		</p>
+		<div class="mb-8">
+			<MultiChoiceSelector
+				title="Automobily"
+				:categories="carsInputData"
+				v-model="vehiclesSectionData.cars"
+			/>
+		</div>
+		<div class="mb-8">
+			<MultiChoiceSelector
+				title="Nákladní auta"
+				:categories="trucksInputData"
+				v-model="vehiclesSectionData.trucks"
+			/>
+		</div>
+		<div class="mb-8">
+			<MultiChoiceSelector
+				title="Stroje"
+				:categories="machinesInputData"
+				v-model="vehiclesSectionData.machines"
+			/>
+		</div>
 	</div>
 </template>
-
-<style scoped>
-.vehicle-section {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-}
-
-.section-description {
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.form-group {
-  margin-bottom: 2rem;
-}
-
-.fuel-inputs {
-  display: grid;
-  gap: 1rem;
-}
-
-.fuel-input {
-  width: 100%;
-}
-</style>

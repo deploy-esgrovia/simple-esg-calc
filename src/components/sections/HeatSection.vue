@@ -74,10 +74,10 @@ watch(
 			<h3 class="text-xl font-semibold">Odebíráte teplo od dodavatele?</h3>
 			<div class="flex gap-8 mt-4">
 				<label class="flex items-center gap-2 cursor-pointer">
-					<input type="radio" v-model="useHeat" :value="true" /> Ano
+					<input type="radio" v-model="useHeat" :value="true" class="form-radio" /> Ano
 				</label>
 				<label class="flex items-center gap-2 cursor-pointer">
-					<input type="radio" v-model="useHeat" :value="false" /> Ne
+					<input type="radio" v-model="useHeat" :value="false" class="form-radio" /> Ne
 				</label>
 			</div>
 		</div>
@@ -105,10 +105,10 @@ watch(
 			<h3 class="text-xl font-semibold">Odebíráte páru od dodavatele?</h3>
 			<div class="flex gap-8 mt-4">
 				<label class="flex items-center gap-2 cursor-pointer">
-					<input type="radio" v-model="useSteam" :value="true" /> Ano
+					<input type="radio" v-model="useSteam" :value="true" class="form-radio" /> Ano
 				</label>
 				<label class="flex items-center gap-2 cursor-pointer">
-					<input type="radio" v-model="useSteam" :value="false" /> Ne
+					<input type="radio" v-model="useSteam" :value="false" class="form-radio" /> Ne
 				</label>
 			</div>
 		</div>
@@ -124,7 +124,7 @@ watch(
 			<div v-for="sourceId in selectedSteamSources" :key="sourceId" class="mt-4">
 				<InputWithUnit
 					:modelValue="steamSourceAmounts[sourceId]"
-					@update:modelValue="(value) => toggleSource(selectedSteamSources, steamSourceAmounts, value)"
+					@update:modelValue="(value) => (steamSourceAmounts[sourceId] = value)"
 					:label="`Množství ${sourceOptions.find((s) => s.id === sourceId).label}`"
 					unit="MWh / rok"
 				/>

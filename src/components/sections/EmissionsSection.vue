@@ -65,140 +65,63 @@ watch(
 </script>
 
 <template>
-	<div class="emissions-section">
-		<h2 class="section-title">Skleníkové plyny a další emise</h2>
-		<p class="section-description">
-			Jestli produkujete během výroby nějaké další přímé emise, vyberte je a zadejte objem.
-		</p>
+  <div class="max-w-4xl mx-auto p-8">
+    <h2 class="text-2xl text-gray-900 mb-4">Skleníkové plyny a další emise</h2>
+    <p class="text-gray-600 mb-8">
+      Jestli produkujete během výroby nějaké další přímé emise, vyberte je a zadejte objem.
+    </p>
 
-		<div class="form-group">
-			<h3>Produkujete další emise?</h3>
-			<div class="radio-group">
-				<label> <input type="radio" v-model="hasEmissions" :value="true" /> Ano </label>
-				<label> <input type="radio" v-model="hasEmissions" :value="false" /> Ne </label>
-			</div>
-		</div>
+    <div class="mb-8">
+      <h3 class="text-xl font-semibold">Produkujete další emise?</h3>
+      <div class="flex gap-8 mt-4">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" v-model="hasEmissions" :value="true" /> Ano
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" v-model="hasEmissions" :value="false" /> Ne
+        </label>
+      </div>
+    </div>
 
-		<div v-if="hasEmissions" class="emissions-list">
-			<h3>Seznam látek</h3>
-			<p class="helper-text">Vyplňte hodnoty pouze pro vyprodukované látky.</p>
+    <div v-if="hasEmissions" class="mt-8">
+      <h3 class="text-xl font-semibold">Seznam látek</h3>
+      <p class="text-gray-600 text-sm mb-4">Vyplňte hodnoty pouze pro vyprodukované látky.</p>
 
-			<!-- Predefined emissions -->
-			<div v-for="emission in emissionTypes" :key="emission.id" class="emission-input">
-				<InputWithUnit
-					:label="emission.label"
-					v-model="emissionsAmounts[emission.id]"
-					unit="kg / rok"
-				/>
-			</div>
+      <!-- Predefined emissions -->
+      <div v-for="emission in emissionTypes" :key="emission.id" class="mb-4">
+        <InputWithUnit
+          :label="emission.label"
+          v-model="emissionsAmounts[emission.id]"
+          unit="kg / rok"
+        />
+      </div>
 
-			<!-- Custom emissions -->
-			<h3>Přidat další emise</h3>
-			<div
-				v-for="(customEmission, index) in addedEmissions"
-				:key="index"
-				class="custom-emission"
-			>
-				<select v-model="customEmission.type" class="custom-emission-type">
-					<option disabled value="">Vyberte typ emisí</option>
-					<option v-for="type in additionalEmissionTypes" :key="type.id" :value="type.id">
-						{{ type.label }}
-					</option>
-				</select>
-				<InputWithUnit
-					v-if="customEmission.type"
-					v-model="customEmission.value"
-					unit="kg / rok"
-				/>
-				<button @click="removeEmission(index)" class="remove-button">Odebrat</button>
-			</div>
-			<button @click="addEmission" class="add-button">Přidat emisní typ</button>
-		</div>
-	</div>
+      <!-- Custom emissions -->
+      <h3 class="text-xl font-semibold mt-8">Přidat další emise</h3>
+      <div
+        v-for="(customEmission, index) in addedEmissions"
+        :key="index"
+        class="flex items-center gap-4 mb-4"
+      >
+        <select v-model="customEmission.type" class="flex-1 p-2 border border-gray-300 rounded">
+          <option disabled value="">Vyberte typ emisí</option>
+          <option v-for="type in additionalEmissionTypes" :key="type.id" :value="type.id">
+            {{ type.label }}
+          </option>
+        </select>
+        <InputWithUnit
+          v-if="customEmission.type"
+          v-model="customEmission.value"
+          unit="kg / rok"
+          class="mt-4"
+        />
+        <button @click="removeEmission(index)" class="bg-red-600 text-white px-4 py-2 rounded">
+          Odebrat
+        </button>
+      </div>
+      <button @click="addEmission" class="bg-blue-600 text-white px-4 py-2 rounded mt-4">
+        Přidat emisní typ
+      </button>
+    </div>
+  </div>
 </template>
-
-<style scoped>
-.emissions-section {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.section-title {
-  font-size: 1.5rem;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-}
-
-.section-description {
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.form-group {
-  margin-bottom: 2rem;
-}
-
-.radio-group {
-  display: flex;
-  gap: 2rem;
-  margin-top: 1rem;
-}
-
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-}
-
-.helper-text {
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-
-.emissions-list {
-  margin-top: 2rem;
-}
-
-.emission-input {
-  margin-bottom: 1rem;
-}
-
-.custom-emission {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.custom-emission-type {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.add-button,
-.remove-button {
-  background-color: #4169E1;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-button {
-  margin-top: 1rem;
-}
-
-.remove-button {
-  background-color: #dc3545;
-}
-
-.remove-button:hover {
-  background-color: #c82333;
-}
-</style>
