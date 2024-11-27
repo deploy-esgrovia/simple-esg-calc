@@ -6,9 +6,9 @@ import { useFormStore } from '../../stores/formStore';
 const { formData } = useFormStore();
 
 const companyInfo = ref({
-	ico: '',
-	name: '',
-	email: ''
+	ico: formData.companyInfo.ico || '',
+	name: formData.companyInfo.name || '',
+	email: formData.companyInfo.email || ''
 });
 
 const handleSubmit = () => {

@@ -8,14 +8,14 @@ import { useFormStore } from '../../stores/formStore';
 const { formData } = useFormStore();
 
 // Heat Section Data
-const useHeat = ref(false);
-const selectedHeatSources = ref([]);
-const heatSourceAmounts = reactive({});
+const useHeat = ref(formData.heat.useHeat || false);
+const selectedHeatSources = ref(formData.heat.selectedHeatSources || []);
+const heatSourceAmounts = reactive(formData.heat.heatSourceAmounts || {});
 
 // Steam Section Data
-const useSteam = ref(false);
-const selectedSteamSources = ref([]);
-const steamSourceAmounts = reactive({});
+const useSteam = ref(formData.heat.useSteam || false);
+const selectedSteamSources = ref(formData.heat.selectedSteamSources || []);
+const steamSourceAmounts = reactive(formData.heat.steamSourceAmounts || {});
 
 const sourceOptions = [
 	{ id: "biomass", label: "Biomasa / Bioplyn", icon: "🌿" },
@@ -38,7 +38,9 @@ const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
 watch(
 	[useHeat, selectedHeatSources, heatSourceAmounts, useSteam, selectedSteamSources, steamSourceAmounts],
 	() => {
+		formData.heat.useHeat = useHeat.value;
 		formData.heat.heatSourceAmounts = heatSourceAmounts;
+		formData.heat.useSteam = useSteam.value;
 		formData.heat.steamSourceAmounts = steamSourceAmounts;
 	},
 	{ deep: true }

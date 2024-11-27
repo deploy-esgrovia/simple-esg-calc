@@ -71,9 +71,9 @@ const { formData } = useFormStore();
 
 // Prepare the data for the MultiChoiceSelector components
 const vehiclesSectionData = reactive({
-  cars: {},
-  trucks: {},
-  machines: {}
+  cars: formData.vehicles.cars || {},
+  trucks: formData.vehicles.trucks || {},
+  machines: formData.vehicles.machines || {}
 });
 
 watch(

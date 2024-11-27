@@ -5,8 +5,9 @@ import { useFormStore } from '../../stores/formStore';
 
 const { formData } = useFormStore();
 
-const hasEmissions = ref(false);
-const emissionsAmounts = ref({});
+const hasEmissions = ref(formData.emissions.hasEmissions || false);
+const emissionsAmounts = ref(formData.emissions.predefined || {});
+const addedEmissions = ref(formData.emissions.custom || []);
 
 const emissionTypes = [
   { id: 'co2', label: 'Oxid uhličitý/CO₂' },
@@ -29,8 +30,6 @@ const additionalEmissionTypes = [
   { id: 'r116', label: 'R-116/Hexafluorethan' }
 ];
 
-const addedEmissions = ref([]);
-
 // Add a new custom emission
 const addEmission = () => {
   addedEmissions.value.push({ type: '', value: '' });
@@ -45,6 +44,7 @@ const removeEmission = (index) => {
 watch(
   [hasEmissions, emissionsAmounts, addedEmissions],
   () => {
+    formData.emissions.hasEmissions = hasEmissions.value;
     formData.emissions.predefined = emissionsAmounts.value;
     formData.emissions.custom = addedEmissions.value;
   }, { deep: true }

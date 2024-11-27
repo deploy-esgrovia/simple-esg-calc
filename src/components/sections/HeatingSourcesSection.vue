@@ -6,9 +6,9 @@ import { useFormStore } from '../../stores/formStore';
 
 const { formData } = useFormStore();
 
-const hasBoiler = ref(false);
-const selectedFuels = ref([]);
-const fuelConsumptionAmounts = ref({});
+const hasBoiler = ref(formData.heatingSources.hasBoiler || false);
+const selectedFuels = ref(formData.heatingSources.selectedFuels || []);
+const fuelConsumptionAmounts = ref(formData.heatingSources.fuelConsumptionAmounts || {});
 
 const fuelOptions = [
 	{ id: 'coal', label: 'Uhlí', icon: '🚂' },
@@ -38,6 +38,7 @@ const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
 watch(
 	[hasBoiler, selectedFuels, fuelConsumptionAmounts],
 	() => {
+		formData.heatingSources.hasBoiler = hasBoiler.value;
 		formData.heatingSources.selectedFuels = selectedFuels.value;
 		formData.heatingSources.fuelConsumptionAmounts = fuelConsumptionAmounts.value;
 	}, { deep: true }
