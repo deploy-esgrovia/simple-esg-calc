@@ -3,7 +3,7 @@ import { ref, watch, reactive } from 'vue';
 import InputWithUnit from './InputWithUnit.vue';
 
 // Reactive states to manage expansion and selected tab
-const isOpen = ref(false); 
+const isOpen = ref(false);
 const selectedTab = ref(null);
 
 // Props to pass the data into the component
@@ -20,8 +20,8 @@ const dataByCategory = reactive({});
 
 // Watch for changes in categories and update dataByCategory accordingly
 watch(
-  () => props.categories,
-  () => {
+	() => props.categories,
+	() => {
     for (const [categoryId, category] of Object.entries(props.categories)) {
 		if (!dataByCategory[categoryId]) {
 			dataByCategory[categoryId] = {};
@@ -31,9 +31,9 @@ watch(
 				dataByCategory[categoryId][input.id] = "";
 			}
 		}
-	}
-}, { immediate: true });
-
+    }
+	}, { immediate: true }
+);
 
 // Emit the updated modelValue whenever dataByCategory changes
 watch(
@@ -46,21 +46,30 @@ watch(
 </script>
 
 <template>
-	<div class="multi-choice-selector">
+	<div class="my-5 border rounded-lg shadow-sm p-4 space-y-4 bg-white">
 		<!-- Title of the expandable card -->
-		<div class="card-header" @click="isOpen = !isOpen">
-			<h3>{{ props.title }}</h3>
-			<input type="checkbox" v-model="isOpen" />
+		<div class="flex items-center justify-between cursor-pointer" @click="isOpen = !isOpen">
+			<h3 class="text-lg font-medium text-gray-800">{{ props.title }}</h3>
+			<input
+				type="checkbox"
+				v-model="isOpen"
+				class="form-checkbox h-5 w-5 text-blue-600 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
+			/>
 		</div>
 
 		<!-- Expandable section with tabs and input fields -->
-		<div v-if="isOpen" class="card-body">
+		<div v-if="isOpen" class="space-y-4">
 			<!-- Tabs for each category -->
-			<div class="tabs">
+			<div class="flex gap-2 border-b pb-2">
 				<div
 					v-for="category in props.categories"
 					:key="category.label"
-					:class="['tab', { active: selectedTab === category.label }]"
+					:class="[
+            'px-4 py-2 text-sm rounded-t-md cursor-pointer',
+            selectedTab === category.label
+				? 'bg-blue-600 text-white font-medium'
+				: 'bg-gray-100 hover:bg-gray-200'
+				]"
 					@click="selectedTab = category.label"
 				>
 					{{ category.label }}
@@ -72,9 +81,9 @@ watch(
 				v-for="(category, categoryId) in props.categories"
 				:key="category.label"
 				v-show="selectedTab === category.label"
+				class="space-y-4"
 			>
-				<br />
-				<div v-for="input in category.inputs" :key="input.id" class="input-group">
+				<div v-for="input in category.inputs" :key="input.id" class="space-y-1">
 					<InputWithUnit
 						:label="input.label"
 						:unit="input.unit"
@@ -85,43 +94,3 @@ watch(
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.multi-choice-selector {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.card-body {
-  margin-top: 1rem;
-}
-
-.tabs {
-  display: flex;
-  gap: 1rem;
-}
-
-.tab {
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 4px;
-  background-color: #f0f0f0;
-}
-
-.tab.active {
-  background-color: #4169E1;
-  color: white;
-}
-
-.input-group {
-  margin-bottom: 1rem;
-}
-</style>
