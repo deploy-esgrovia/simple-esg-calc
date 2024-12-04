@@ -4,13 +4,11 @@ import SideNavbar from './components/SideNavbar.vue';
 </script>
 
 <template>
-	<div
-		class="mt-4 bg-white border border-gray-200 rounded-xl shadow-sm grid grid-cols-[auto,1fr]"
-	>
+	<div class="m-4 bg-white border border-gray-200 rounded-xl shadow-sm grid grid-cols-[auto,1fr]">
 		<!-- Sidebar -->
-		<SideNavbar class="p-6 h-screen fixed left-0 top-0" />
+		<SideNavbar class="border border-x-1 border-y-0 border-l-0 border-gray-200 min-w-60" />
 		<!-- Router View -->
-		<div class="flex-grow rounded-lg ml-60 mx-auto overflow-y-auto h-screen">
+		<div class="p-8 overflow-hidden">
 			<RouterView />
 		</div>
 	</div>

@@ -46,13 +46,13 @@ watch(companyInfo, () => {
 		<div class="mb-6">
 			<InputWithUnit type="text" label="E-mail" v-model="companyInfo.email" />
 		</div>
-	</div>
-	<div>
-		<button
-			@click="handleSubmit"
-			class="block mx-auto my-8 py-3 px-8 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
-		>
-			Submit
-		</button>
+		<div>
+			<button
+				@click="handleSubmit"
+				class="block mx-auto my-8 py-3 px-8 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
+			>
+				Submit
+			</button>
+		</div>
 	</div>
 </template>

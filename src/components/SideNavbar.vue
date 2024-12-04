@@ -1,5 +1,5 @@
 <script setup>
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 import { computed } from 'vue';
 
 // Access the current route
@@ -12,9 +12,21 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 </script>
 
 <template>
-	<div class="border border-x-1 border-y-0 border-l-0 border-gray-200 min-w-60">
+	<div class="border border-inherit">
 		<nav>
 			<ul class="text-lg">
+				<!-- Úvod -->
+				<li
+					class="bg-color3 bg-opacity-50 border border-b-1 border-x-0 border-t-0 last:border-b-0 rounded-tl-lg"
+				>
+					<RouterLink
+						to="/information"
+						class="block py-2 pl-3 pr-3 justify-between transition-colors duration-200"
+						:class="{ ' bg-blue-500 bg-opacity-50': $route.path === '/information' }"
+					>
+						<div>Úvod</div>
+					</RouterLink>
+				</li>
 				<!-- Scope 1 -->
 				<li>
 					<ul
@@ -34,7 +46,7 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 							<RouterLink
 								to="/"
 								class="block py-2 pl-3 pr-3 justify-between transition-colors duration-200"
-								:class="{ 'bg-blue-500 bg-opacity-50': $route.path === '/energy' }"
+								:class="{ ' bg-blue-500 bg-opacity-50': $route.path === '/energy' }"
 							>
 								<div>Energy</div>
 							</RouterLink>
@@ -46,7 +58,7 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 								to="/heat"
 								class="block py-2 pl-3 pr-3 justify-between transition-colors duration-200
                 "
-								:class="{ 'bg-blue-500 bg-opacity-50 ': $route.path === '/heat' }"
+								:class="{ ' bg-blue-500 bg-opacity-50 ': $route.path === '/heat' }"
 							>
 								<div>Heat</div>
 							</RouterLink>
@@ -57,7 +69,7 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 							<RouterLink
 								to="/heating-sources"
 								class="block py-2 pl-3 pr-3 justify-between transition-colors duration-200"
-								:class="{ 'bg-blue-500 bg-opacity-50 ': $route.path === '/heating-sources' }"
+								:class="{ ' bg-blue-500 bg-opacity-50 ': $route.path === '/heating-sources' }"
 							>
 								<div>Heating Sources</div>
 							</RouterLink>
@@ -82,7 +94,7 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 								to="/vehicles"
 								class="block py-2 pl-3 pr-3 justify-between transition-colors duration-200
                 "
-								:class="{ 'bg-blue-500 bg-opacity-50 ': $route.path === '/vehicles' }"
+								:class="{ ' bg-blue-500 bg-opacity-50 ': $route.path === '/vehicles' }"
 							>
 								<div>Vehicles</div>
 							</RouterLink>
@@ -94,7 +106,7 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 								to="/emissions"
 								class="block py-2 pl-3 pr-3 justify-between transition-colors duration-200
                 "
-								:class="{ 'bg-blue-500 bg-opacity-50 ': $route.path === '/emissions' }"
+								:class="{ ' bg-blue-500 bg-opacity-50 ': $route.path === '/emissions' }"
 							>
 								<div>Emissions</div>
 							</RouterLink>
@@ -119,7 +131,7 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 								to="/emissions"
 								class="block py-2 pl-3 pr-3 justify-between transition-colors duration-200
                 "
-								:class="{ 'bg-blue-500 bg-opacity-50 ': $route.path === '/dummy' }"
+								:class="{ ' bg-blue-500 bg-opacity-50 ': $route.path === '/dummy' }"
 							>
 								<div>Dummy</div>
 							</RouterLink>
@@ -136,7 +148,7 @@ const isScope3Active = computed(() => ['/scope3'].includes(route.path));
 							<RouterLink
 								to="/company-info"
 								class="block py-2 pl-3 pr-12 transition-colors duration-200"
-								:class="{ 'bg-blue-500 bg-opacity-50 ': $route.path === '/company-info' }"
+								:class="{ ' bg-blue-500 bg-opacity-50 ': $route.path === '/company-info' }"
 							>
 								Shrnutí
 							</RouterLink>

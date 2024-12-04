@@ -5,6 +5,7 @@ import HeatingSourcesSection from "../components/sections/HeatingSourcesSection.
 import VehicleSection from "../components/sections/VehicleSection.vue";
 import EmissionsSection from "../components/sections/EmissionsSection.vue";
 import CompanyInfoSection from "../components/sections/CompanyInfoSection.vue";
+import InformationSection from "../components/sections/InformationSection.vue";
 
 const routes = [
 	{ path: "/", redirect: "/energy" },
@@ -14,6 +15,7 @@ const routes = [
 	{ path: "/vehicles", component: VehicleSection },
 	{ path: "/emissions", component: EmissionsSection },
 	{ path: "/company-info", component: CompanyInfoSection },
+	{ path: "/information", component: InformationSection },
 ];
 
 const router = createRouter({
