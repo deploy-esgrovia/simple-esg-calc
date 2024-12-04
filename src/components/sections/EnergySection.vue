@@ -1,75 +1,48 @@
 <script setup>
 import { ref, watch } from 'vue';
+import { useFormStore } from '../../stores/formStore';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
 
-const props = defineProps({
-	modelValue: Object,
-});
+// Use Pinia store
+const { formData } = useFormStore();
 
-const emit = defineEmits(['update:modelValue']);
-
-// Data
-const annualConsumption = ref(props.modelValue.annualConsumption || '');
-const selectedEnergyType = ref(props.modelValue.selectedEnergyType || 'regular');
-const sourceTypeValues = ref(props.modelValue.sourceTypeValues || {
+// Local component state
+const annualConsumption = ref(formData.energy.annualConsumption || '');
+const selectedEnergyType = ref(formData.energy.selectedEnergyType || 'regular');
+const sourceTypeValues = ref(formData.energy.sourceTypeValues || {
 	photovoltaic: '',
 	biomass: '',
 	wind: '',
 	water: '',
-	nuclear: '',
+	nuclear: ''
 });
 
-// Constants
+// Constants for UI
 const sourceTypeLabels = {
-	photovoltaic: "Fotovoltaika",
-	biomass: "Biomasa / bioplyn",
-	wind: "Vítr",
-	water: "Voda",
-	nuclear: "Jádro",
+	photovoltaic: 'Fotovoltaika',
+	biomass: 'Biomasa / bioplyn',
+	wind: 'Vítr',
+	water: 'Voda',
+	nuclear: 'Jádro'
 };
 
 const energyTypes = [
-	{
-		id: "regular",
-		label: "Běžná elektřina",
-		icon: "🔌",
-	},
-	{
-		id: "green",
-		label: "Zelený tarif",
-		icon: "🌿",
-	},
-	{
-		id: "guaranteed",
-		label: "Záruky původu",
-		icon: "🤝",
-	},
+	{ id: 'regular', label: 'Běžná elektřina', icon: '🔌' },
+	{ id: 'green', label: 'Zelený tarif', icon: '🌿' },
+	{ id: 'guaranteed', label: 'Záruky původu', icon: '🤝' }
 ];
 
-// Watch
-watch(
-	[annualConsumption, selectedEnergyType, sourceTypeValues],
-	() => {
-		const updatedModelValue = {
-			annualConsumption: annualConsumption.value,
-			selectedEnergyType: selectedEnergyType.value,
-		};
-
-		if (selectedEnergyType.value === 'guaranteed') {
-			// Include `sourceTypeValues` only when the selected type is 'guaranteed'
-			updatedModelValue.sourceTypeValues = sourceTypeValues.value;
-		}
-
-		// Emit the updated modelValue
-		emit('update:modelValue', updatedModelValue);
-	},
-	{ deep: true }
-);
+// Watch for changes and update store
+watch([annualConsumption, selectedEnergyType, sourceTypeValues], () => {
+	formData.energy.annualConsumption = annualConsumption.value;
+	formData.energy.selectedEnergyType = selectedEnergyType.value;
+	formData.energy.sourceTypeValues = sourceTypeValues.value;
+}, { deep: true });
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Nakupovaná elektrická energie</h2>
 		<p class="text-gray-600 mb-8">
 			Zadejte roční spotřebu a původ elektřiny. Pokud ji neznáte, podívejte se do posledního

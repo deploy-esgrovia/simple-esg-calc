@@ -2,22 +2,20 @@
 import { ref, reactive, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-	modelValue: Object,
-});
-
-const emit = defineEmits(['update:modelValue']);
+// Use Pinia store
+const { formData } = useFormStore();
 
 // Heat Section Data
-const useHeat = ref(false);
-const selectedHeatSources = ref([]);
-const heatSourceAmounts = reactive({});
+const useHeat = ref(formData.heat.useHeat || false);
+const selectedHeatSources = ref(formData.heat.selectedHeatSources || []);
+const heatSourceAmounts = reactive(formData.heat.heatSourceAmounts || {});
 
 // Steam Section Data
-const useSteam = ref(false);
-const selectedSteamSources = ref([]);
-const steamSourceAmounts = reactive({});
+const useSteam = ref(formData.heat.useSteam || false);
+const selectedSteamSources = ref(formData.heat.selectedSteamSources || []);
+const steamSourceAmounts = reactive(formData.heat.steamSourceAmounts || {});
 
 const sourceOptions = [
 	{ id: "biomass", label: "Biomasa / Bioplyn", icon: "🌿" },
@@ -40,30 +38,17 @@ const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
 watch(
 	[useHeat, selectedHeatSources, heatSourceAmounts, useSteam, selectedSteamSources, steamSourceAmounts],
 	() => {
-		const updatedModelValue = {
-			...props.modelValue,
-			heat: useHeat.value
-				? {
-						sources: selectedHeatSources.value,
-						amounts: { ...heatSourceAmounts },
-					}
-				: null, // Remove heat data if not used
-			steam: useSteam.value
-				? {
-						sources: selectedSteamSources.value,
-						amounts: { ...steamSourceAmounts },
-					}
-				: null, // Remove steam data if not used
-		};
-
-		emit('update:modelValue', updatedModelValue);
+		formData.heat.useHeat = useHeat.value;
+		formData.heat.heatSourceAmounts = heatSourceAmounts;
+		formData.heat.useSteam = useSteam.value;
+		formData.heat.steamSourceAmounts = steamSourceAmounts;
 	},
 	{ deep: true }
 );
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Nakupované teplo a pára</h2>
 		<p class="text-gray-600 mb-8">
 			Odebíráte teplo nebo páru od dodavatele? Pokud ano, vyberte zdroj a množství.

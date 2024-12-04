@@ -1,15 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-  modelValue: Object,
-});
+const { formData } = useFormStore();
 
-const emit = defineEmits(['update:modelValue']);
-
-const hasEmissions = ref(false);
-const emissionsAmounts = ref({});
+const hasEmissions = ref(formData.emissions.hasEmissions || false);
+const emissionsAmounts = ref(formData.emissions.predefined || {});
+const addedEmissions = ref(formData.emissions.custom || []);
 
 const emissionTypes = [
   { id: 'co2', label: 'Oxid uhličitý/CO₂' },
@@ -32,8 +30,6 @@ const additionalEmissionTypes = [
   { id: 'r116', label: 'R-116/Hexafluorethan' }
 ];
 
-const addedEmissions = ref([]);
-
 // Add a new custom emission
 const addEmission = () => {
   addedEmissions.value.push({ type: '', value: '' });
@@ -48,24 +44,15 @@ const removeEmission = (index) => {
 watch(
   [hasEmissions, emissionsAmounts, addedEmissions],
   () => {
-    const updatedModelValue = {
-      ...props.modelValue,
-      emissions: hasEmissions.value
-        ? {
-            predefined: { ...emissionsAmounts.value },
-            custom: addedEmissions.value.filter(e => e.type && e.value),
-          }
-        : null,
-    };
-
-    emit('update:modelValue', updatedModelValue);
-  },
-  { deep: true }
+    formData.emissions.hasEmissions = hasEmissions.value;
+    formData.emissions.predefined = emissionsAmounts.value;
+    formData.emissions.custom = addedEmissions.value;
+  }, { deep: true }
 );
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto p-8">
+  <div class="max-w-4xl mx-auto p-6">
     <h2 class="text-2xl text-gray-900 mb-4">Skleníkové plyny a další emise</h2>
     <p class="text-gray-600 mb-8">
       Jestli produkujete během výroby nějaké další přímé emise, vyberte je a zadejte objem.

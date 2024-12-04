@@ -1,34 +1,29 @@
 <script setup>
 import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-  modelValue: Object,
-  required: true,
-  default: () => ({})
-});
-
-const emit = defineEmits(['update:modelValue']);
+const { formData } = useFormStore();
 
 const companyInfo = ref({
-  ico: '',
-  name: '',
-  email: ''
+	ico: formData.companyInfo.ico || '',
+	name: formData.companyInfo.name || '',
+	email: formData.companyInfo.email || ''
 });
+
+const handleSubmit = () => {
+	const rawFormData = JSON.parse(JSON.stringify(formData));
+	console.log('Submit: ', rawFormData);
+};
 
 // Watcher for Company Info Data
 watch(companyInfo, () => {
-  const updatedModelValue = {
-    ...props.modelValue,
-    companyInfo: companyInfo.value
-  }
-
-  emit('update:modelValue', updatedModelValue);
-  }, { deep: true });
+	formData.companyInfo = companyInfo.value;
+}, { deep: true });
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl mb-4">Informace o vaší firmě</h2>
 		<p class="text-gray-600 mb-6">Už jen několik informací o vaší firmě a máme hotovo.</p>
 
@@ -51,5 +46,13 @@ watch(companyInfo, () => {
 		<div class="mb-6">
 			<InputWithUnit type="text" label="E-mail" v-model="companyInfo.email" />
 		</div>
+	</div>
+	<div>
+		<button
+			@click="handleSubmit"
+			class="block mx-auto my-8 py-3 px-8 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
+		>
+			Submit
+		</button>
 	</div>
 </template>

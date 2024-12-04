@@ -2,63 +2,51 @@
 import { ref, watch } from 'vue';
 import InputWithUnit from '../InputWithUnit.vue';
 import TypeSelector from '../TypeSelector.vue';
+import { useFormStore } from '../../stores/formStore';
 
-const props = defineProps({
-  modelValue: Object,
-});
+const { formData } = useFormStore();
 
-const emit = defineEmits(['update:modelValue']);
-
-const hasBoiler = ref(false);
-const selectedFuels = ref([]);
-const fuelConsumptionAmounts = ref({});
+const hasBoiler = ref(formData.heatingSources.hasBoiler || false);
+const selectedFuels = ref(formData.heatingSources.selectedFuels || []);
+const fuelConsumptionAmounts = ref(formData.heatingSources.fuelConsumptionAmounts || {});
 
 const fuelOptions = [
-  { id: 'coal', label: 'Uhlí', icon: '🚂' },
-  { id: 'gas', label: 'Zemní plyn', icon: '🔥' },
-  { id: 'wood', label: 'Dřevo', icon: '🌳' },
-  { id: 'oil', label: 'Lehký topný olej', icon: '💧' }
+	{ id: 'coal', label: 'Uhlí', icon: '🚂' },
+	{ id: 'gas', label: 'Zemní plyn', icon: '🔥' },
+	{ id: 'wood', label: 'Dřevo', icon: '🌳' },
+	{ id: 'oil', label: 'Lehký topný olej', icon: '💧' }
 ];
 
 const units = {
-  oil: 'l/rok',
-  gas: 'Nm³/rok',
-  coal: 't/rok',
-  wood: 't/rok'
+	oil: 'l/rok',
+	gas: 'Nm³/rok',
+	coal: 't/rok',
+	wood: 't/rok'
 };
 
 const toggleSource = (sourceArray, sourceAmounts, sourceId) => {
-  if (sourceArray.includes(sourceId)) {
-    sourceArray.splice(sourceArray.indexOf(sourceId), 1);
-    delete sourceAmounts[sourceId];
-  } else {
-    sourceArray.push(sourceId);
-    sourceAmounts[sourceId] = '';
-  }
+	if (sourceArray.includes(sourceId)) {
+		sourceArray.splice(sourceArray.indexOf(sourceId), 1);
+		delete sourceAmounts[sourceId];
+	} else {
+		sourceArray.push(sourceId);
+		sourceAmounts[sourceId] = '';
+	}
 };
 
 // Watch for Changes to Boiler and Fuel Data
 watch(
-  [hasBoiler, selectedFuels, fuelConsumptionAmounts],
-  () => {
-    const updatedModelValue = {
-      ...props.modelValue,
-      boiler: hasBoiler.value
-        ? {
-            fuels: selectedFuels.value,
-            amounts: { ...fuelConsumptionAmounts.value },
-          }
-        : null,
-    };
-
-    emit('update:modelValue', updatedModelValue);
-  },
-  { deep: true }
+	[hasBoiler, selectedFuels, fuelConsumptionAmounts],
+	() => {
+		formData.heatingSources.hasBoiler = hasBoiler.value;
+		formData.heatingSources.selectedFuels = selectedFuels.value;
+		formData.heatingSources.fuelConsumptionAmounts = fuelConsumptionAmounts.value;
+	}, { deep: true }
 );
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Vlastní zdroje topení a vytápění</h2>
 		<p class="text-gray-600 mb-8">
 			Máte kotelnu, kterou využíváte pro vytápění prostor nebo provoz technologie? Pokud ano,

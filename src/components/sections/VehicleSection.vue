@@ -1,6 +1,7 @@
 <script setup>
 import { watch, reactive } from 'vue';
 import MultiChoiceSelector from '../MultiChoiceSelector.vue';
+import { useFormStore } from '../../stores/formStore';
 
 // Input data for the components
 const carsInputData = {
@@ -65,36 +66,27 @@ const machinesInputData = {
   }
 }
 
-// Props
-const props = defineProps({
-  modelValue: Object,
-});
-
-const emit = defineEmits(['update:modelValue']);
+// Use pinia store
+const { formData } = useFormStore();
 
 // Prepare the data for the MultiChoiceSelector components
 const vehiclesSectionData = reactive({
-  cars: props.modelValue.cars || {},
-  trucks: props.modelValue.trucks || {},
-  machines: props.modelValue.machines || {}
+  cars: formData.vehicles.cars || {},
+  trucks: formData.vehicles.trucks || {},
+  machines: formData.vehicles.machines || {}
 });
 
 watch(
   [vehiclesSectionData],
   () => {
-    const updatedModelValue = {
-      cars: vehiclesSectionData.cars,
-      trucks: vehiclesSectionData.trucks,
-      machines: vehiclesSectionData.machines
-    };
-    emit('update:modelValue', updatedModelValue);
+    formData.vehicles = vehiclesSectionData;
   },
   { deep: true }
 );
 </script>
 
 <template>
-	<div class="max-w-4xl mx-auto p-8">
+	<div class="max-w-4xl mx-auto p-6">
 		<h2 class="text-2xl text-gray-900 mb-4">Automobily a stroje</h2>
 		<p class="text-gray-600 mb-8">
 			Jestli ve firmě používáte auta nebo stroje, uveďte jaké, a doplňte informace o spotřebě.
