@@ -39,8 +39,10 @@ watch(
 	[useHeat, selectedHeatSources, heatSourceAmounts, useSteam, selectedSteamSources, steamSourceAmounts],
 	() => {
 		formData.heat.useHeat = useHeat.value;
+		formData.heat.selectedHeatSources = selectedHeatSources.value;
 		formData.heat.heatSourceAmounts = heatSourceAmounts;
 		formData.heat.useSteam = useSteam.value;
+		formData.heat.selectedSteamSources = selectedSteamSources.value;
 		formData.heat.steamSourceAmounts = steamSourceAmounts;
 	},
 	{ deep: true }
