@@ -4,7 +4,7 @@ import InputWithUnit from './InputWithUnit.vue';
 
 // Reactive states to manage expansion and selected tab
 const isOpen = ref(false);
-const selectedTab = ref(null);
+const selectedTabLabel = ref(null);
 
 // Props to pass the data into the component
 const props = defineProps({
@@ -18,11 +18,24 @@ const emit = defineEmits(['update:modelValue']);
 // Initialize dataByCategory as a reactive object
 const dataByCategory = reactive({});
 
-// Watch for changes in categories and update dataByCategory accordingly
-watch(
-	() => props.categories,
-	() => {
-    for (const [categoryId, category] of Object.entries(props.categories)) {
+// Function which will correctly populate the dataByCategory object
+const populateDataByCategory = () => {
+	// Select the first category by default
+	selectedTabLabel.value = Object.values(props.categories)[0].label;
+	// Take the model value and assign it to dataByCategory
+	if (Object.keys(props.modelValue).length !== 0) {
+		isOpen.value = true;
+		for (const [categoryId, category] of Object.entries(props.modelValue)) {
+			if (!dataByCategory[categoryId]) {
+				dataByCategory[categoryId] = {};
+			}
+			for (const [inputId, value] of Object.entries(category)) {
+				dataByCategory[categoryId][inputId] = value;
+			}
+		}
+		return;
+	}
+	for (const [categoryId, category] of Object.entries(props.categories)) {
 		if (!dataByCategory[categoryId]) {
 			dataByCategory[categoryId] = {};
 		}
@@ -31,7 +44,14 @@ watch(
 				dataByCategory[categoryId][input.id] = "";
 			}
 		}
-    }
+	}
+}
+
+// Watch for changes in categories and update dataByCategory accordingly
+watch(
+	() => props.categories,
+	() => {
+		populateDataByCategory();
 	}, { immediate: true }
 );
 
@@ -66,11 +86,11 @@ watch(
 					:key="category.label"
 					:class="[
             'px-4 py-2 text-sm rounded-t-md cursor-pointer',
-            selectedTab === category.label
+            selectedTabLabel === category.label
 				? 'bg-blue-600 text-white font-medium'
 				: 'bg-gray-100 hover:bg-gray-200'
 				]"
-					@click="selectedTab = category.label"
+					@click="selectedTabLabel = category.label"
 				>
 					{{ category.label }}
 				</div>
@@ -80,7 +100,7 @@ watch(
 			<div
 				v-for="(category, categoryId) in props.categories"
 				:key="category.label"
-				v-show="selectedTab === category.label"
+				v-show="selectedTabLabel === category.label"
 				class="space-y-4"
 			>
 				<div v-for="input in category.inputs" :key="input.id" class="space-y-1">
