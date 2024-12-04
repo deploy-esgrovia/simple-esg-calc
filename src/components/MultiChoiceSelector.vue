@@ -8,9 +8,9 @@ const selectedTab = ref(null);
 
 // Props to pass the data into the component
 const props = defineProps({
-  title: String,
-  categories: Object,
-  modelValue: Object,
+	title: String,
+	categories: Object,
+	modelValue: Object,
 });
 
 const emit = defineEmits(['update:modelValue']);
