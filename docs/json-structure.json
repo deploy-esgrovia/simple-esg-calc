@@ -1,0 +1,112 @@
+{
+	"energy": {
+		"annualConsumption": "456",
+		"selectedEnergyType": "guaranteed",
+		"sourceTypeValues": {
+			"photovoltaic": "456",
+			"biomass": "43",
+			"wind": "543",
+			"water": "34",
+			"nuclear": "453"
+		}
+	},
+	"heat": {
+		"useHeat": true,
+		"selectedHeatSources": ["biomass", "gas", "coal", "unknown"],
+		"heatSourceAmounts": {
+			"biomass": "453",
+			"gas": "453",
+			"coal": "73",
+			"unknown": "73"
+		},
+		"useSteam": true,
+		"selectedSteamSources": ["biomass", "gas", "coal", "unknown"],
+		"steamSourceAmounts": {
+			"biomass": "783",
+			"gas": "73453",
+			"coal": "453",
+			"unknown": "453"
+		}
+	},
+	"heatingSources": {
+		"hasBoiler": true,
+		"selectedFuels": ["coal", "gas", "wood", "oil"],
+		"fuelConsumptionAmounts": {
+			"coal": "789",
+			"gas": "3785",
+			"wood": "3783",
+			"oil": "873"
+		}
+	},
+	"vehicles": {
+		"cars": {
+			"totalMilage": {
+				"benzin": "783",
+				"nafta": "7837",
+				"cng": "374",
+				"lpg": "5",
+				"elektrina": "786"
+			},
+			"fuelConsumption": {
+				"benzin": "",
+				"nafta": "",
+				"cng": "",
+				"lpg": "",
+				"elektrina": ""
+			}
+		},
+		"trucks": {
+			"totalMilage": {
+				"benzin": "",
+				"nafta": "",
+				"cng": "",
+				"lpg": "",
+				"elektrina": ""
+			},
+			"fuelConsumption": {
+				"benzin": "786",
+				"nafta": "378",
+				"cng": "378",
+				"lpg": "786",
+				"elektrina": "978"
+			}
+		},
+		"machines": {
+			"fuelConsumption": {
+				"benzin": "783",
+				"nafta": "786",
+				"cng": "378",
+				"lpg": "783",
+				"elektrina": "786"
+			}
+		}
+	},
+	"emissions": {
+		"hasEmissions": true,
+		"predefined": {
+			"co2": "45",
+			"ch4": "45",
+			"nf3": "2772",
+			"n2o": "783",
+			"sf6": "3783",
+			"r23": "783",
+			"r32": "783",
+			"r125": "879"
+		},
+		"custom": [
+			{
+				"type": "r143a",
+				"value": "783"
+			},
+			{
+				"type": "r236fa",
+				"value": "786"
+			}
+		]
+	},
+	"companyInfo": {
+		"ico": "123456789",
+		"name": "test s.r.o.",
+		"email": "safasfas@gmail.com"
+	}
+}
