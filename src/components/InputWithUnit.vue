@@ -21,7 +21,7 @@ const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
-	<div class="space-y-2 mb-4">
+	<div>
 		<label v-if="label" class="block text-sm font-medium text-gray-700">
 			{{ label }}
 		</label>
