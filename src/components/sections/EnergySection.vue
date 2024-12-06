@@ -33,6 +33,14 @@ const energyTypes = [
 	{ id: 'guaranteed', label: 'Záruky původu', icon: '🤝' }
 ];
 
+const validateForm = () => {
+	if (annualConsumption.value === '' || selectedEnergyType.value === '') {
+		alert('Vyplňte prosím všechny povinné údaje.');
+		return false;
+	}
+	return true;
+}
+
 // Watch for changes and update store
 watch([annualConsumption, selectedEnergyType, sourceTypeValues], () => {
 	formData.energy.annualConsumption = annualConsumption.value;
@@ -54,7 +62,8 @@ watch([annualConsumption, selectedEnergyType, sourceTypeValues], () => {
 				label="Kolik elektřiny nakupujete?"
 				v-model="annualConsumption"
 				unit="MWh / rok"
-				:error="annualConsumption === ''"
+				:required="True"
+				:min="1"
 			/>
 		</div>
 
@@ -65,16 +74,16 @@ watch([annualConsumption, selectedEnergyType, sourceTypeValues], () => {
 
 		<div v-if="selectedEnergyType === 'guaranteed'" class="mb-8">
 			<div v-for="(label, source) in sourceTypeLabels" :key="source" class="mb-4">
-				<InputWithUnit :label="label" v-model="sourceTypeValues[source]" unit="MWh / rok" />
+				<InputWithUnit :label="label" v-model="sourceTypeValues[source]" unit="MWh / rok" :min="1" />
 			</div>
 		</div>
 		<div class="flex">
-			<RouterLink
-				to="/heat"
+			<button
+				@click="validateForm() && $router.push('/heat')"
 				class="block mx-auto py-2 px-4 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
 			>
 				Pokračovat
-			</RouterLink>
+			</button>
 		</div>
 	</div>
 </template>
