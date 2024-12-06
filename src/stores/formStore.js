@@ -45,6 +45,12 @@ export const useFormStore = defineStore("formStore", () => {
 		}
 		try {
 			const response = await axios.get(`${baseApiUrl}?hash=${hash.value}`);
+			// Replace empty arrays with empty objects
+			Object.keys(response.data).forEach((key) => {
+				if (Array.isArray(response.data[key]) && response.data[key].length === 0) {
+					response.data[key] = {};
+				}
+			});
 			Object.assign(formData, response.data);
 			console.log("Data fetched: ", response.data);
 		} catch (error) {
