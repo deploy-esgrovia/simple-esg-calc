@@ -10,44 +10,44 @@ const emissionsAmounts = ref(formData.emissions.predefined || {});
 const addedEmissions = ref(formData.emissions.custom || []);
 
 const emissionTypes = [
-  { id: 'co2', label: 'Oxid uhličitý/CO₂' },
-  { id: 'ch4', label: 'Metan/CH₄' },
-  { id: 'nf3', label: 'Fluorid dusitý/NF₃' },
-  { id: 'n2o', label: 'Oxid dusný/N₂O' },
-  { id: 'sf6', label: 'Fluorid sírový/SF₆' },
-  { id: 'r23', label: 'R-23/Fluoroform' },
-  { id: 'r32', label: 'R-32/Difluormethan' },
-  { id: 'r125', label: 'R-125/Pentafluorethan' }
+	{ id: 'co2', label: 'Oxid uhličitý/CO₂' },
+	{ id: 'ch4', label: 'Metan/CH₄' },
+	{ id: 'nf3', label: 'Fluorid dusitý/NF₃' },
+	{ id: 'n2o', label: 'Oxid dusný/N₂O' },
+	{ id: 'sf6', label: 'Fluorid sírový/SF₆' },
+	{ id: 'r23', label: 'R-23/Fluoroform' },
+	{ id: 'r32', label: 'R-32/Difluormethan' },
+	{ id: 'r125', label: 'R-125/Pentafluorethan' }
 ];
 
 const additionalEmissionTypes = [
-  { id: 'r134a', label: 'R-134a/Tetrafluorethan' },
-  { id: 'r143a', label: 'R-143a/Trifluorethan' },
-  { id: 'r152a', label: 'R-152a/Difluorethan' },
-  { id: 'r227ea', label: 'R-227ea/Heptafluoropropan' },
-  { id: 'r236fa', label: 'R-236fa/Hexafluoropropan' },
-  { id: 'r14', label: 'R-14/Tetrafluormethan' },
-  { id: 'r116', label: 'R-116/Hexafluorethan' }
+	{ id: 'r134a', label: 'R-134a/Tetrafluorethan' },
+	{ id: 'r143a', label: 'R-143a/Trifluorethan' },
+	{ id: 'r152a', label: 'R-152a/Difluorethan' },
+	{ id: 'r227ea', label: 'R-227ea/Heptafluoropropan' },
+	{ id: 'r236fa', label: 'R-236fa/Hexafluoropropan' },
+	{ id: 'r14', label: 'R-14/Tetrafluormethan' },
+	{ id: 'r116', label: 'R-116/Hexafluorethan' }
 ];
 
 // Add a new custom emission
 const addEmission = () => {
-  addedEmissions.value.push({ type: '', value: '' });
+	addedEmissions.value.push({ type: '', value: '' });
 };
 
 // Remove a custom emission
 const removeEmission = (index) => {
-  addedEmissions.value.splice(index, 1);
+	addedEmissions.value.splice(index, 1);
 };
 
 // Watch for changes in emissions-related data
 watch(
-  [hasEmissions, emissionsAmounts, addedEmissions],
-  () => {
-    formData.emissions.hasEmissions = hasEmissions.value;
-    formData.emissions.predefined = emissionsAmounts.value;
-    formData.emissions.custom = addedEmissions.value;
-  }, { deep: true }
+	[hasEmissions, emissionsAmounts, addedEmissions],
+	() => {
+		formData.emissions.hasEmissions = hasEmissions.value;
+		formData.emissions.predefined = emissionsAmounts.value;
+		formData.emissions.custom = addedEmissions.value;
+	}, { deep: true }
 );
 </script>
 
