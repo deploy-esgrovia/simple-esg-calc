@@ -73,14 +73,14 @@ watch(
 					:energyTypes="fuelOptions"
 				/>
 			</div>
-		</div>
 
-		<div v-for="fuel in selectedFuels" :key="fuel" class="mb-8">
-			<InputWithUnit
-				:label="`Množství ${fuelOptions.find(f => f.id === fuel).label}`"
-				v-model="fuelConsumptionAmounts[fuel]"
-				:unit="units[fuel]"
-			/>
+			<div v-for="fuel in selectedFuels" :key="fuel" class="mb-8">
+				<InputWithUnit
+					:label="`Množství ${fuelOptions.find(f => f.id === fuel).label}`"
+					v-model="fuelConsumptionAmounts[fuel]"
+					:unit="units[fuel]"
+				/>
+			</div>
 		</div>
 
 		<div class="flex">
