@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -18,6 +18,25 @@ export const useFormStore = defineStore("formStore", () => {
 		companyInfo: {},
 	});
 
+	// Function for saving data
+	const saveData = async () => {
+		try {
+			if (hash.value) {
+				// Update existing data
+				const response = await axios.post(`${baseApiUrl}?hash=${hash.value}`, formData);
+				console.log("Data updated: ", response.data);
+				return;
+			}
+			// Create new data
+			const response = await axios.post(baseApiUrl, formData);
+			hash.value = response.data.hash;
+			Cookies.set("hash", hash.value);
+			console.log("Data saved: ", response.data);
+		} catch (error) {
+			console.error("Error saving data: ", error);
+		}
+	};
+
 	// Fetch data function
 	const fetchData = async () => {
 		if (!hash.value) {
@@ -34,6 +53,14 @@ export const useFormStore = defineStore("formStore", () => {
 			isLoading.value = false;
 		}
 	};
+
+	watch(
+		formData,
+		async () => {
+			await saveData();
+		},
+		{ deep: true }
+	);
 
 	return { formData, fetchData, isLoading };
 });
