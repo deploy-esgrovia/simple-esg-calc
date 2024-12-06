@@ -82,5 +82,20 @@ watch(
 				:unit="units[fuel]"
 			/>
 		</div>
+
+		<div class="flex">
+			<RouterLink
+				to="/heat"
+				class="block mx-auto py-2 px-4 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
+			>
+				Zpět
+			</RouterLink>
+			<RouterLink
+				to="/vehicles"
+				class="block mx-auto py-2 px-4 bg-blue-500 text-white border-none rounded cursor-pointer text-xl hover:bg-blue-700"
+			>
+				Pokračovat
+			</RouterLink>
+		</div>
 	</div>
 </template>
