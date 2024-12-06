@@ -28,6 +28,9 @@ RUN rm -rf ./*
 # Copy built files from the build stage
 COPY --from=build /app/dist .
 
+# Copy over the Nginx configuration file for SPA routing
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Expose port 80
 EXPOSE 80
 
